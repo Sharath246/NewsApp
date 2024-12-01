@@ -1,0 +1,39 @@
+/* Card Layout */
+.cardLayout {
+  text-decoration: none;
+  width: 22%;
+  border: 2px solid grey;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 1%;
+  background-color: #e1e4e8;
+  display: flex;
+  flex-direction: column; /* Vertical stacking for image and title */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardLayout:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Image Styling */
+.image img {
+  width: 100%; /* Image spans full width of the card */
+  height: 150px; /* Fixed height to ensure consistent size */
+  border-radius: 8px 8px 0 0; /* Rounded top corners */
+  object-fit: cover; /* Ensures the image scales proportionally */
+}
+
+
+/* Card Title */
+.cardTitle {
+  margin: 10px 0;
+  padding: 10px;
+  text-align: center;
+  color: #5b708f;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #e1e4e8;
+  border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+}
