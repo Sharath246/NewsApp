@@ -1,28 +1,30 @@
 import { NavLink, useParams } from "react-router-dom";
-import Card from "../Components/Card";
+import Card from "../Components/Card.tsx";
 import { useEffect, useState } from "react";
+import React from "react";
+import { newsType } from "../CommonTypes.ts";
 export default function Home() {
   const params = useParams();
   const apiKey = "d82840cf2d394de2bbf45c8925147b65";
   const newsurl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
-  const userUrl = "localhost:8080/getuser";
-  const [news, setNews] = useState([]);
-  const [user,setUSer] = useState("");
+  // const userUrl = "localhost:8080/getuser";
+  const [news, setNews] = useState<newsType["articles"]>([]);
+  // const [user,setUSer] = useState("");
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response1 = await fetch(newsurl);
         const allnews = await response1.json();
-        setNews(allnews.articles.slice(0, 8)); 
-        const response2 = await fetch(userUrl);
-        const name = await response2.text();
-        setUSer(name);
+        setNews(allnews.articles.slice(0, 8));
+        // const response2 = await fetch(userUrl);
+        // const name = await response2.text();
+        // setUSer(name);
       } catch (error) {
         console.error("Error Message -> ", error);
       }
     };
     fetchNews();
-  }, []);
+  }, [newsurl]);
 
   return (
     <div>
@@ -35,7 +37,10 @@ export default function Home() {
         </div>
         <div>
           <h3>
-          <NavLink to="allNews" style={{ textDecoration: "none", color: "#4e607a" }}>
+            <NavLink
+              to="allNews"
+              style={{ textDecoration: "none", color: "#4e607a" }}
+            >
               See All &gt;
             </NavLink>
           </h3>
@@ -50,7 +55,7 @@ export default function Home() {
               description={news.description}
               link={news.url}
               imageURL={news.urlToImage}
-              content = {news.content}
+              content={news.content}
             />
           );
         })}
@@ -60,15 +65,14 @@ export default function Home() {
 }
 
 const Styles = {
-  cardContainer:{
+  cardContainer: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    gap: "10px", 
+    gap: "10px",
     padding: "10px",
-  },
+  } as React.CSSProperties,
   feature_heading: {
-    marginTop: "5%",
     display: "flex",
     padding: "0 6%",
     justifyContent: "space-between",

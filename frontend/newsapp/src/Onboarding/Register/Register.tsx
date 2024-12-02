@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./Register.css";
 import { useNavigate, Link } from "react-router-dom";
 export default function Register() {
@@ -39,7 +39,7 @@ export default function Register() {
         <h2>Register</h2>
         <form method="post" onSubmit={handleRegister}>
           <div className="form-group">
-            <label for="name">Name</label>
+            <label>Name</label>
             <input
               type="name"
               id="name"
@@ -52,7 +52,7 @@ export default function Register() {
             />
           </div>
           <div className="form-group">
-            <label for="email">Email</label>
+            <label>Email</label>
             <input
               type="email"
               id="email"
@@ -65,7 +65,7 @@ export default function Register() {
             />
           </div>
           <div className="form-group">
-            <label for="password">Password</label>
+            <label>Password</label>
             <input
               type="password"
               id="password"
@@ -79,7 +79,7 @@ export default function Register() {
             />
           </div>
           <div className="form-group">
-            <label for="confirmPassword">Confirm Password</label>
+            <label>Confirm Password</label>
             <input
               type="password"
               id="confirmPassword"

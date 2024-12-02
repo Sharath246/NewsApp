@@ -1,5 +1,5 @@
-import Card from "../Components/Card";
-
+import Card from "../Components/Card.tsx";
+import React from "react";
 export default function Topic() {
   const news_topics = [
     {
@@ -54,17 +54,22 @@ export default function Topic() {
   ];
 
   return (
-    <div style={Styles.mainContainer}>
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+      }}
+    >
       {news_topics.map((topic) => {
-        return <Card title={topic.topic} imageURL={topic.image_url} link={`/dashboard/topicNews/${topic.topic}`}/>;
+        return (
+          <Card
+            title={topic.topic}
+            imageURL={topic.image_url}
+            link={`/dashboard/topicNews/${topic.topic}`}
+            modal={false}
+          />
+        );
       })}
     </div>
   );
-}
-
-const Styles = {
-  mainContainer:{
-    display:"flex",
-    flexWrap:"wrap",
-  }
 }

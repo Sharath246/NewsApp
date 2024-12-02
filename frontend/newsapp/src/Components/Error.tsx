@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
-import '../Styles/Error.css'
+import { Link } from "react-router-dom";
+import "../Styles/Error.css";
+import React from "react";
 export default function Error() {
+  function retry() {}
   return (
-    <div className='main'>
+    <div className="main">
       <div className="error-container">
         <div className="error-content">
           <h1>Oops! Something Went Wrong</h1>
@@ -15,7 +17,7 @@ export default function Error() {
             <Link to="/" className="btn-home">
               Back to Home
             </Link>
-            <button className="btn-retry" onclick={{}}>
+            <button className="btn-retry" onClick={retry}>
               Retry
             </button>
           </div>

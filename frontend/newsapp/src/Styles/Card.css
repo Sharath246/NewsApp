@@ -37,3 +37,46 @@
   background-color: #e1e4e8;
   border-radius: 0 0 8px 8px; /* Rounded bottom corners */
 }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+}
+
+.image-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.text-container {
+    width: 90%;
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+}
+
+.description {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.content {
+    font-size: 1rem;
+    color: #666;
+}

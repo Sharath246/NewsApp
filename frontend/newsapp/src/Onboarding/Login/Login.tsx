@@ -1,4 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
+import React from "react";
 import "./Login.css";
 import { useState } from "react";
 export default function Login() {
@@ -35,7 +36,7 @@ export default function Login() {
         <h2>Login</h2>
         <form method="get" onSubmit={handleLogin}>
           <div className="form-group">
-            <label for="email">Email</label>
+            <label>Email</label>
             <input
               type="email"
               id="email"
@@ -50,7 +51,7 @@ export default function Login() {
             />
           </div>
           <div className="form-group">
-            <label for="password">Password</label>
+            <label>Password</label>
             <input
               type="password"
               id="password"

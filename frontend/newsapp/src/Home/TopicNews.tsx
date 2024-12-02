@@ -1,9 +1,11 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Card from "../Components/Card";
+import React from "react";
+import Card from "../Components/Card.tsx";
+import { newsType } from "../CommonTypes.ts";
 export default function TopicNews() {
   const props = useParams();
-  const [news, setNews] = useState([]);
+  const [news, setNews] = useState<newsType["articles"]>([]);
   const apiKey = "d82840cf2d394de2bbf45c8925147b65";
   var url = `https://newsapi.org/v2/everything?apiKey=${apiKey}`;
   if (props.topic !== "")
@@ -46,5 +48,5 @@ const Styles = {
     justifyContent: "space-between",
     gap: "10px",
     padding: "10px",
-  },
+  } as React.CSSProperties,
 };

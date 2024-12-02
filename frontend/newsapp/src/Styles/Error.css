@@ -6,7 +6,6 @@
 }
 
 main {
-    font-family: 'Arial', sans-serif;
     background-color: #fdfdfd; /* Light background */
     display: flex;
     justify-content: center;
