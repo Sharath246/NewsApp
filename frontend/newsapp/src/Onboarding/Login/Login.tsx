@@ -1,7 +1,8 @@
 import { useNavigate, Link } from "react-router-dom";
-import React from "react";
+import React, {useEffect} from "react";
 import "./Login.css";
 import { useState } from "react";
+import { getUser } from "../../api/getUser.ts";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,25 +11,22 @@ export default function Login() {
   const navigation = useNavigate();
   async function handleLogin(e) {
     e.preventDefault();
-    const url = "http://localhost:8080/login";
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          email: email,
-          password: password,
-        },
-      });
-      const val = await response.text();
-      console.log(val);
-      if (val === "Not Registered") setNRError(true);
-      else if (val === "Wrong Password") setWPError(true);
-      else navigation("/dashboard/" + val);
-    } catch (error) {
-      console.error("error ->   ", error.message);
+    const val = await getUser(email,password);
+    if(val === "No Result")
+      navigation('/404Error')
+    if (val === "Not Registered") setNRError(true);
+    else if (val === "Wrong Password") setWPError(true);
+    else {
+      localStorage.setItem("User", val);
+      navigation("/dashboard");
     }
   }
+
+  useEffect(() => {
+    const user = localStorage.getItem("User");
+    if(user !== null)
+      navigation("/dashboard/" + user);
+  }, [navigation]);
 
   return (
     <div className="login-screen">
@@ -48,6 +46,7 @@ export default function Login() {
                 setNRError(false);
                 setWPError(false);
               }}
+              placeholder="Enter your Email"
             />
           </div>
           <div className="form-group">
@@ -62,6 +61,7 @@ export default function Login() {
                 setPassword(e.target.value);
                 setWPError(false);
               }}
+              placeholder="Enter your Password"
             />
           </div>
           <div className="login-footer">

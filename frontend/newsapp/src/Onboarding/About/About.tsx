@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import "./About.css";
+
 export default function About() {
   return (
     <div className="main">
@@ -11,7 +13,7 @@ export default function About() {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="#">Contact</Link>
+              <Link to="#">Contact Us</Link>
             </li>
           </ul>
         </nav>
@@ -21,10 +23,10 @@ export default function About() {
         <div className="content-container">
           <h1>About Us</h1>
           <p>
-            Welcome to **NewsApp**, your one-stop destination for staying
-            updated with the latest news and insights from around the globe. We
-            are committed to delivering accurate, unbiased, and timely news to
-            our audience, empowering them to make informed decisions.
+            Welcome to <strong>NewsApp</strong>, your one-stop destination for
+            staying updated with the latest news and insights from around the
+            globe. We are committed to delivering accurate, unbiased, and timely
+            news to our audience, empowering them to make informed decisions.
           </p>
           <h2>Our Mission</h2>
           <p>
@@ -48,7 +50,7 @@ export default function About() {
         </div>
       </div>
 
-      <footer className="footer">
+      <footer className="about-footer">
         <p>&copy; 2024 NewsApp. All rights reserved.</p>
       </footer>
     </div>

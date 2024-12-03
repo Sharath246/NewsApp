@@ -3,14 +3,25 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "../Styles/Card.css";
 import Modal from "react-bootstrap/Modal";
 
+type CardProps = {
+  link?: string;
+  imageURL?: string;
+  title?: string;
+  modal?: boolean;
+  description?: string;
+  content?: string;
+  bookMark?: React.ReactNode;
+};
+
 export default function Card({
-  link,
-  imageURL,
-  title,
+  link="",
+  imageURL="",
+  title="",
   modal = true,
   description = "",
   content = "",
-}) {
+  bookMark = null,
+}:CardProps) {
   const placeholderImage = "https://via.placeholder.com/150";
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
@@ -43,6 +54,7 @@ export default function Card({
         <div className="cardTitle">
           <p>{title}</p>
         </div>
+        {bookMark}
       </div>
     </div>
   );
@@ -75,7 +87,6 @@ function MyVerticallyCenteredModal(props) {
           </div>
           <div className="textContainer">
             <p className="description">{props.description}</p>
-            <p className="content">{props.content}</p>
           </div>
         </div>
       </Modal.Body>

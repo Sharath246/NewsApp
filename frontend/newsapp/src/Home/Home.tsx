@@ -1,49 +1,53 @@
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Card from "../Components/Card.tsx";
 import { useEffect, useState } from "react";
 import React from "react";
 import { newsType } from "../CommonTypes.ts";
+import LoginModal from "../Components/LoginModal.tsx";
+import Bookmark from "../Components/Bookmark.tsx";
+import { bookmark } from "../api/bookmark.ts";
+import { getNews } from "../api/getNews.ts";
 export default function Home() {
-  const params = useParams();
-  const apiKey = "d82840cf2d394de2bbf45c8925147b65";
-  const newsurl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
-  // const userUrl = "localhost:8080/getuser";
+  const location = useLocation();
+  const navigation = useNavigate();
+  const [loginModal, setLoginModal] = useState(true);
+  const [user, setUser] = useState<string | null>(null);
   const [news, setNews] = useState<newsType["articles"]>([]);
-  // const [user,setUSer] = useState("");
   useEffect(() => {
+    const user = localStorage.getItem("User");
+    setUser(user);
+    if (user !== null) setLoginModal(false);
     const fetchNews = async () => {
-      try {
-        const response1 = await fetch(newsurl);
-        const allnews = await response1.json();
-        setNews(allnews.articles.slice(0, 8));
-        // const response2 = await fetch(userUrl);
-        // const name = await response2.text();
-        // setUSer(name);
-      } catch (error) {
-        console.error("Error Message -> ", error);
-      }
+      const allNews = await getNews("TopHeadlines", "country=us");
+      setNews(allNews.articles);
     };
     fetchNews();
-  }, [newsurl]);
-
+  }, [ navigation, location.pathname]);
   return (
     <div>
+      {loginModal && (
+        <LoginModal
+          onClose={() => {
+            setLoginModal(false);
+          }}
+        />
+      )}
       <center>
-        <h1>Hello {params && params.name}</h1>
+        <h1>Hello {user !== null ? user : "User"}</h1>
       </center>
       <div style={Styles.feature_heading}>
         <div>
-          <h3>Here is your daily feature: -</h3>
+          <h4>Here is your daily feature: -</h4>
         </div>
         <div>
-          <h3>
+          <h4>
             <NavLink
               to="allNews"
               style={{ textDecoration: "none", color: "#4e607a" }}
             >
-              See All &gt;
+              See All News &gt;
             </NavLink>
-          </h3>
+          </h4>
         </div>
       </div>
       <div style={Styles.cardContainer}>
@@ -56,6 +60,11 @@ export default function Home() {
               link={news.url}
               imageURL={news.urlToImage}
               content={news.content}
+              bookMark={
+                user !== null ? (
+                  <Bookmark storeBookmark={bookmark(news)} />
+                ) : null
+              }
             />
           );
         })}

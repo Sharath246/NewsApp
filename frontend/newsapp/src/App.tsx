@@ -10,6 +10,8 @@ import AllNews from "./Home/AllNews.tsx";
 import Topic from "./Home/Topics.tsx";
 import TopicNews from "./Home/TopicNews.tsx";
 import React from "react";
+import Settings from "./Home/Settings/Settings.tsx";
+import NotAuthorizedPage from "./Components/NotAuthorized.tsx";
 
 function App() {
   return (
@@ -19,13 +21,13 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/about" element={<About />} />
       <Route path="/404Error" element={<Error />} />
+      <Route path="notAuthorized" element = {<NotAuthorizedPage/>}/>
       <Route path="/dashboard" element={<Dashboard />}>
         <Route index element={<Home />} />
-        <Route path=":name?" element={<Home />} />
         <Route path="allNews" element={<AllNews />} />
-        <Route path=":name/allNews" element={<AllNews />} />
         <Route path="topics" element={<Topic />} />
         <Route path="topicNews/:topic?" element={<TopicNews />} />
+        <Route path="settings" element= {<Settings/>}/> 
       </Route>
     </Routes>
   );

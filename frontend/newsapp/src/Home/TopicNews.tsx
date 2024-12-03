@@ -3,25 +3,23 @@ import { useParams } from "react-router-dom";
 import React from "react";
 import Card from "../Components/Card.tsx";
 import { newsType } from "../CommonTypes.ts";
+import { getNews } from "../api/getNews.ts";
 export default function TopicNews() {
   const props = useParams();
   const [news, setNews] = useState<newsType["articles"]>([]);
-  const apiKey = "d82840cf2d394de2bbf45c8925147b65";
-  var url = `https://newsapi.org/v2/everything?apiKey=${apiKey}`;
-  if (props.topic !== "")
-    url = `https://newsapi.org/v2/everything?q=${props.topic}&apiKey=${apiKey}`;
+  var query:string;
+  if(props?.topic)
+    query=`q=${props.topic}`;
+  else
+    query=""
   useEffect(() => {
     const fetchNews = async () => {
-      try {
-        const response = await fetch(url);
-        const allnews = await response.json();
-        setNews(allnews.articles);
-      } catch (error) {
-        console.error("Error Message -> ", error);
-      }
+      const allNews = await getNews("Everything", query);
+      console.log(allNews.articles);
+      setNews(allNews.articles)
     };
     fetchNews();
-  }, [url]);
+  }, [query]);
 
   return (
     <div style={Styles.cardContainer}>

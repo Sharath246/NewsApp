@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Register.css";
 import { useNavigate, Link } from "react-router-dom";
+import { registerUser } from "../../api/registerUser.ts";
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,25 +15,22 @@ export default function Register() {
     if (confirmPassword !== password) {
       setError(true);
     } else {
-      const url = "http://localhost:8080/register";
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-            name: name,
-          }),
-        });
-        const value = await response.text();
-        if (value === "Success") navigation("/dashboard/" + name);
-        else navigation("/404Error");
-      } catch (error) {
-        console.error(error.message);
+      const value = await registerUser(email, password, name);
+      if (value === "Success") {
+        localStorage.setItem("User", name);
+        navigation("/dashboard");
       }
+      else if(value==="Failure")
+      {/*do something here*/}
+      else navigation("/404Error");
     }
   }
+
+  useEffect(() => {
+    const user = localStorage.getItem("User");
+    if (user !== null) navigation("/dashboard");
+  }, [navigation]);
+
   return (
     <div className="login-screen">
       <div className="form-container">
@@ -49,6 +47,7 @@ export default function Register() {
               onChange={(e) => {
                 setName(e.target.value);
               }}
+              placeholder="Enter your Name"
             />
           </div>
           <div className="form-group">
@@ -62,6 +61,7 @@ export default function Register() {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
+              placeholder="Enter your Email"
             />
           </div>
           <div className="form-group">
@@ -76,6 +76,7 @@ export default function Register() {
                 setPassword(e.target.value);
                 setError(false);
               }}
+              placeholder="Enter new Password"
             />
           </div>
           <div className="form-group">
@@ -90,6 +91,7 @@ export default function Register() {
                 setconfirmPassword(e.target.value);
                 setError(false);
               }}
+              placeholder="Confirm New Password"
             />
             {error && (
               <p style={{ color: "red" }}>* The Passwords dont match.</p>
