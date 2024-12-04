@@ -15,7 +15,6 @@ export async function getUser(
     const val = await response.text();
     return val;
   } catch (error) {
-    console.error("error ->   ", error.message);
     return "No Result";
   }
 }

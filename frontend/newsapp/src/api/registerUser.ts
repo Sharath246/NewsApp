@@ -17,7 +17,6 @@ export async function registerUser(
     const value = await response.text();
     return value;
   } catch (error) {
-    console.error(error.message);
     return "No Result";
   }
 }

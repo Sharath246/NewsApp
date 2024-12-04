@@ -1,4 +1,4 @@
-package sharath.newsapp;
+package sharath.newsapp.Model;
 
 public class User {
     private String name, email, password;

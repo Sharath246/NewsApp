@@ -10,7 +10,7 @@ type CardProps = {
   modal?: boolean;
   description?: string;
   content?: string;
-  bookMark?: React.ReactNode;
+  bookMark?: React.JSX.Element;
 };
 
 export default function Card({

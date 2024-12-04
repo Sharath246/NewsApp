@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import "./Register.css";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../../api/registerUser.ts";
@@ -7,6 +8,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
+  const [remember, setRemember] = useState(false);
   const [error, setError] = useState(false);
   const navigation = useNavigate();
 
@@ -18,11 +20,13 @@ export default function Register() {
       const value = await registerUser(email, password, name);
       if (value === "Success") {
         localStorage.setItem("User", name);
+        if (remember) {
+          Cookies.set('User',name,{expires:15});
+        }
         navigation("/dashboard");
-      }
-      else if(value==="Failure")
-      {/*do something here*/}
-      else navigation("/404Error");
+      } else if (value === "Failure") {
+        /*do something here*/
+      } else navigation("/404Error");
     }
   }
 
@@ -96,6 +100,19 @@ export default function Register() {
             {error && (
               <p style={{ color: "red" }}>* The Passwords dont match.</p>
             )}
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              id="checkbox"
+              name="chekkbox"
+              onChange={(e) => {
+                setRemember(e.target.checked);
+              }}
+            />
+            <label style={{ display: "inline", marginLeft: "2%" }}>
+              Remember Me for 15 Days
+            </label>
           </div>
           <div className="login-footer">
             <button type="submit" className="submit-btn">

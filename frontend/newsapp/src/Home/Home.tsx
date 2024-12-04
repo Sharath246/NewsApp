@@ -1,5 +1,6 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Card from "../Components/Card.tsx";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import React from "react";
 import { newsType } from "../CommonTypes.ts";
@@ -23,6 +24,8 @@ export default function Home() {
     };
     fetchNews();
   }, [ navigation, location.pathname]);
+  console.log(localStorage.getItem("User"),'\n\n')
+  console.log('cookies  ',Cookies.get("User"), "\n\n");
   return (
     <div>
       {loginModal && (
@@ -62,7 +65,7 @@ export default function Home() {
               content={news.content}
               bookMark={
                 user !== null ? (
-                  <Bookmark storeBookmark={bookmark(news)} />
+                  <Bookmark storeBookmark={async ()=>{return await bookmark(news)}} />
                 ) : null
               }
             />

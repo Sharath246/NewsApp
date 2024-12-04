@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import sharath.newsapp.User;
+import sharath.newsapp.Model.User;
+import sharath.newsapp.Onboarding.UserSession;
 import sharath.newsapp.Onboarding.Repository.OnboardingRequest;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,11 +30,14 @@ public class OnboardingController {
     public ResponseEntity<String> loginHandler(@RequestHeader String email, @RequestHeader String password) {
         OnboardingRequest onboardingRequest = context.getBean(OnboardingRequest.class);
         User user = onboardingRequest.checkUser(email);
-        System.out.println(email + " " + email.length() + " " + password + " " + password.length());
         if (user == null)
             return ResponseEntity.status(400).body("Not Registered");
         else if(user.getPassword().equals(password))
+        {
+            UserSession session = context.getBean(UserSession.class);
+            System.out.println("In login-> "+session.getName());
             return ResponseEntity.ok(user.getName());
+        }
         else
             return ResponseEntity.status(400).body("Wrong Password");
     }
@@ -43,6 +47,8 @@ public class OnboardingController {
         OnboardingRequest onboardingRequest = context.getBean(OnboardingRequest.class);
         boolean addedUser = onboardingRequest.addUser(user);
         if (addedUser) {
+            UserSession session = context.getBean(UserSession.class);
+            System.out.println("In register-> "+ session.getName());
             return ResponseEntity.ok("Success");
         } else {
             return ResponseEntity.status(400).body("Failed");
@@ -53,6 +59,21 @@ public class OnboardingController {
     public List<User> getAllUSers() {
         OnboardingRequest onboardingRequest = context.getBean(OnboardingRequest.class);
         return onboardingRequest.allUsers();
+    }
+
+    @PostMapping("/logout")
+    public String logoutUser(){
+        OnboardingRequest onboardingRequest = context.getBean(OnboardingRequest.class);
+        if(onboardingRequest.logoutUser())
+        return "Success";
+        else
+        return "Failure";
+    }
+
+    @GetMapping("/getsession")
+    public String getUserSession(){
+        UserSession userSession = context.getBean(UserSession.class);
+        return userSession.getName();
     }
 
 }

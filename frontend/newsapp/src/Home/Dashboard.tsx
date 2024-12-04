@@ -1,5 +1,7 @@
 import React from "react";
+import Cookies from "js-cookie";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { logoutUser } from "../api/logoutUser";
 
 export default function Dashboard() {
   return (
@@ -13,8 +15,11 @@ export default function Dashboard() {
 export function Navbar() {
   const navigate = useNavigate();
   const user = localStorage.getItem("User");
-  function logoutHandler() {
+  async function logoutHandler() {
     localStorage.removeItem("User");
+    Cookies.remove("User");
+    const response = await logoutUser();
+    if(response === "Success")
     navigate("/");
   }
 

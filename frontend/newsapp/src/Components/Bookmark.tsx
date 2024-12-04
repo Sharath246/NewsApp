@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 
-export default function Bookmark({storeBookmark}) {
+export default function Bookmark({
+  storeBookmark,
+}: {
+  storeBookmark: () => Promise<string>;
+}) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -13,10 +17,11 @@ export default function Bookmark({storeBookmark}) {
           : Styles.bookmarkButton
       }
       className="bookmarkButton"
-      onClick={(e) => {
+      onClick={async (e) => {
         e.stopPropagation();
         setIsBookmarked(!isBookmarked);
-        storeBookmark();
+        const response = await storeBookmark();
+        if (response === "Failure") setIsBookmarked(false);
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -28,7 +33,9 @@ export default function Bookmark({storeBookmark}) {
 
 const Styles = {
   bookmarkButton: {
-    left: "10px",
+    position: "absolute",
+    bottom: "10px",
+    right: "10px",
     background: "transparent",
     border: "none",
     cursor: "pointer",
