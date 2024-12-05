@@ -19,9 +19,8 @@ export default function Bookmark({
       className="bookmarkButton"
       onClick={async (e) => {
         e.stopPropagation();
-        setIsBookmarked(!isBookmarked);
         const response = await storeBookmark();
-        if (response === "Failure") setIsBookmarked(false);
+        if (response === "Success") setIsBookmarked(!isBookmarked);
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

@@ -69,7 +69,7 @@
   /* Slightly darker teal on hover */
 }
 
-.login-footer{
-  display:flex;
+.login-footer {
+  display: flex;
   justify-content: space-between;
 }

@@ -5,20 +5,28 @@ import { Button, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { newsType } from "../CommonTypes.ts";
 import { getNews } from "../api/getNews.ts";
+import Bookmark from "../Components/Bookmark.tsx";
+import { bookmark } from "../api/bookmark.ts";
+import { useNavigate } from "react-router-dom";
 
 export default function AllNews() {
+  const [user, setUser] = useState("");
   const [news, setNews] = useState<newsType["articles"]>([]);
   const [query, setQuery] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
-    console.log("in useEffect. query= ", query);
     const fetchNews = async () => {
-      const allNews = await getNews("Everything", query);
-      console.log(allNews.articles);
+      if (sessionStorage.getItem("User") === null) {
+        if (localStorage.getItem("User") === null) navigate("/notAuthorized");
+      }
+      var allNews: newsType;
+      if (query !== "") allNews = await getNews("Everything", query);
+      else allNews = { status: "", totalResults: 0, articles: [] };
       setNews(allNews.articles);
     };
     fetchNews();
-  }, [query]);
+  }, [query, user]);
 
   return (
     <>
@@ -37,17 +45,26 @@ export default function AllNews() {
       </div>
       {news.length !== 0 ? (
         <div style={Styles.cardContainer}>
-          {news.map((news,index) => {
-            return (
-              <Card
-                key={index}
-                title={news.title}
-                description={news.description}
-                link={news.url}
-                imageURL={news.urlToImage}
-              />
-            );
-          })}
+          {news
+            .filter((news) => news.title !== "[Removed]")
+            .map((news, index) => {
+              return (
+                <Card
+                  key={index}
+                  title={news.title}
+                  description={news.description}
+                  link={news.url}
+                  imageURL={news.urlToImage}
+                  bookMark={
+                    <Bookmark
+                      storeBookmark={async () => {
+                        return await bookmark(news);
+                      }}
+                    />
+                  }
+                />
+              );
+            })}
         </div>
       ) : (
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -82,7 +99,7 @@ export function FilterModal({ show, onHide, setQuery }) {
     if (topic !== "") {
       // query += `q=${topics[0]}`;
       // for (let i = 1; i < topics.length; i++) query += `OR${topics[i]}`;
-      query+=`q=${topic}`;
+      query += `q=${topic}`;
     } else {
       setError(true);
       return;

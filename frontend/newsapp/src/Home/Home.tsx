@@ -1,6 +1,5 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Card from "../Components/Card.tsx";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import React from "react";
 import { newsType } from "../CommonTypes.ts";
@@ -15,7 +14,7 @@ export default function Home() {
   const [user, setUser] = useState<string | null>(null);
   const [news, setNews] = useState<newsType["articles"]>([]);
   useEffect(() => {
-    const user = localStorage.getItem("User");
+    const user = localStorage.getItem("User") || sessionStorage.getItem("User");
     setUser(user);
     if (user !== null) setLoginModal(false);
     const fetchNews = async () => {
@@ -23,9 +22,7 @@ export default function Home() {
       setNews(allNews.articles);
     };
     fetchNews();
-  }, [ navigation, location.pathname]);
-  console.log(localStorage.getItem("User"),'\n\n')
-  console.log('cookies  ',Cookies.get("User"), "\n\n");
+  }, [navigation, location.pathname]);
   return (
     <div>
       {loginModal && (
@@ -43,34 +40,42 @@ export default function Home() {
           <h4>Here is your daily feature: -</h4>
         </div>
         <div>
-          <h4>
-            <NavLink
-              to="allNews"
-              style={{ textDecoration: "none", color: "#4e607a" }}
-            >
-              See All News &gt;
-            </NavLink>
-          </h4>
+          {user && (
+            <h4>
+              <NavLink
+                to="allNews"
+                style={{ textDecoration: "none", color: "#4e607a" }}
+              >
+                See All News &gt;
+              </NavLink>
+            </h4>
+          )}
         </div>
       </div>
       <div style={Styles.cardContainer}>
-        {news.map((news) => {
-          return (
-            <Card
-              key={news.title}
-              title={news.title}
-              description={news.description}
-              link={news.url}
-              imageURL={news.urlToImage}
-              content={news.content}
-              bookMark={
-                user !== null ? (
-                  <Bookmark storeBookmark={async ()=>{return await bookmark(news)}} />
-                ) : null
-              }
-            />
-          );
-        })}
+        {news
+          .filter((news) => news.title !== "[Removed]")
+          .map((news, index) => {
+            return (
+              <Card
+                key={index}
+                title={news.title}
+                description={news.description}
+                link={news.url}
+                imageURL={news.urlToImage}
+                content={news.content}
+                bookMark={
+                  user !== null ? (
+                    <Bookmark
+                      storeBookmark={async () => {
+                        return await bookmark(news);
+                      }}
+                    />
+                  ) : null
+                }
+              />
+            );
+          })}
       </div>
     </div>
   );

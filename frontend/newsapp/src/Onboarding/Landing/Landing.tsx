@@ -1,23 +1,14 @@
 import { Link } from "react-router";
-import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
 import "./Landing.css";
-import { getSessionName } from "../../api/getUserSession";
 export default function Landing() {
-  const [user,setUser] = useState<string|null>(null);
-  useEffect(()=>{
-        async function getUserSession() {
-          const name = await getSessionName();
-          setUser(name);
-        }
+  const [user, setUser] = useState<string | null>(null);
+  useEffect(() => {
     if (localStorage.getItem("User") === null) {
-      if (Cookies.get("User") === undefined) {
-        getUserSession();
-      } 
-      else setUser(Cookies.get("User") || null);
-    } 
-    else setUser(localStorage.getItem("User"));
-  },[user]);
+      if (sessionStorage.getItem("User") !== null)
+        setUser(sessionStorage.getItem("User"));
+    } else setUser(localStorage.getItem("User"));
+  }, [user]);
   return (
     <div className="landing-container">
       <header
@@ -46,10 +37,12 @@ export default function Landing() {
               </Link>
             </>
           ) : (
-            <><p>Welcome Back {user}</p>
-            <Link to="/dashboard" className="btn-primary">
-              Go to Dashboard
-            </Link></>
+            <>
+              <p>Welcome Back {user}</p>
+              <Link to="/dashboard" className="btn-primary">
+                Go to Dashboard
+              </Link>
+            </>
           )}
         </div>
         <Link to="/about" style={{ marginTop: "3%" }}>

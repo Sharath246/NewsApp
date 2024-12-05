@@ -1,7 +1,7 @@
 export async function registerUser(
   email: string,
   password: string,
-  name: string
+  name: string,
 ): Promise<string> {
   const url = "http://localhost:8080/register";
   try {

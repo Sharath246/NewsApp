@@ -14,14 +14,14 @@ type CardProps = {
 };
 
 export default function Card({
-  link="",
-  imageURL="",
-  title="",
+  link = "",
+  imageURL = "",
+  title = "",
   modal = true,
   description = "",
   content = "",
   bookMark = null,
-}:CardProps) {
+}: CardProps) {
   const placeholderImage = "https://via.placeholder.com/150";
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();

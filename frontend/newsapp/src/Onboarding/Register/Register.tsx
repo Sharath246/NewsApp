@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import "./Register.css";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../../api/registerUser.ts";
@@ -19,10 +18,8 @@ export default function Register() {
     } else {
       const value = await registerUser(email, password, name);
       if (value === "Success") {
-        localStorage.setItem("User", name);
-        if (remember) {
-          Cookies.set('User',name,{expires:15});
-        }
+        if (remember) localStorage.setItem("User", name);
+        else sessionStorage.setItem("User", name);
         navigation("/dashboard");
       } else if (value === "Failure") {
         /*do something here*/

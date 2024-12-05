@@ -96,7 +96,13 @@ export default function Settings() {
         <h2>Email Verification</h2>
         <div className="form-group">
           <label>Email</label>
-          <input type="email" placeholder="Enter Your Email" onChange={(e)=>{setEmail(e.target.value);}}/>
+          <input
+            type="email"
+            placeholder="Enter Your Email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
           <p>{email}</p>
         </div>
         <button onClick={handleVerification} className="verify-button">

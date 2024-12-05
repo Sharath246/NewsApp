@@ -1,4 +1,4 @@
-export async function getSessionName(): Promise<string | null> {
+export async function getUserSession(): Promise<string | null> {
   const url = "http://localhost:8080/getsession";
   try {
     const response = await fetch(url);

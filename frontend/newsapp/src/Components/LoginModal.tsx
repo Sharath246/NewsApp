@@ -5,8 +5,8 @@ export default function LoginWarning({ onClose }) {
     <div style={styles.container}>
       <div style={styles.content}>
         <p style={styles.text}>
-          Please <strong>log in</strong> to save and keep track of your
-          Likes and Intrests.
+          Please <strong>log in</strong> to save and keep track of your Likes
+          and Intrests.
         </p>
         <button style={styles.closeButton} onClick={onClose}>
           ✖

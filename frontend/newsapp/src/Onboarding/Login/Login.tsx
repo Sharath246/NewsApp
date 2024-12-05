@@ -1,5 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "./Login.css";
 import { useState } from "react";
 import { getUser } from "../../api/getUser.ts";
@@ -11,9 +11,8 @@ export default function Login() {
   const navigation = useNavigate();
   async function handleLogin(e) {
     e.preventDefault();
-    const val = await getUser(email,password);
-    if(val === "No Result")
-      navigation('/404Error')
+    const val = await getUser(email, password);
+    if (val === "No Result") navigation("/404Error");
     if (val === "Not Registered") setNRError(true);
     else if (val === "Wrong Password") setWPError(true);
     else {
@@ -24,8 +23,7 @@ export default function Login() {
 
   useEffect(() => {
     const user = localStorage.getItem("User");
-    if(user !== null)
-      navigation("/dashboard/" + user);
+    if (user !== null) navigation("/dashboard/" + user);
   }, [navigation]);
 
   return (
