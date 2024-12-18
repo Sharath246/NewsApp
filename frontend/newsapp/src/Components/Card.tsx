@@ -11,6 +11,7 @@ type CardProps = {
   description?: string;
   content?: string;
   bookMark?: React.JSX.Element;
+  like?: React.JSX.Element;
 };
 
 export default function Card({
@@ -21,6 +22,7 @@ export default function Card({
   description = "",
   content = "",
   bookMark = null,
+  like = null,
 }: CardProps) {
   const placeholderImage = "https://via.placeholder.com/150";
   const [modalShow, setModalShow] = useState(false);
@@ -54,7 +56,7 @@ export default function Card({
         <div className="cardTitle">
           <p>{title}</p>
         </div>
-        {bookMark}
+        {bookMark}{like}
       </div>
     </div>
   );

@@ -1,12 +1,10 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import Card from "../Components/Card.tsx";
 import { useEffect, useState } from "react";
 import React from "react";
 import { newsType } from "../CommonTypes.ts";
 import LoginModal from "../Components/LoginModal.tsx";
-import Bookmark from "../Components/Bookmark.tsx";
-import { bookmark } from "../api/bookmark.ts";
 import { getNews } from "../api/getNews.ts";
+import DisplayNews from "../Components/DisplayNews.tsx";
 export default function Home() {
   const location = useLocation();
   const navigation = useNavigate();
@@ -53,29 +51,7 @@ export default function Home() {
         </div>
       </div>
       <div style={Styles.cardContainer}>
-        {news
-          .filter((news) => news.title !== "[Removed]")
-          .map((news, index) => {
-            return (
-              <Card
-                key={index}
-                title={news.title}
-                description={news.description}
-                link={news.url}
-                imageURL={news.urlToImage}
-                content={news.content}
-                bookMark={
-                  user !== null ? (
-                    <Bookmark
-                      storeBookmark={async () => {
-                        return await bookmark(news);
-                      }}
-                    />
-                  ) : null
-                }
-              />
-            );
-          })}
+        {<DisplayNews news={news}/>}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { logoutUser } from "../api/logoutUser";
 
@@ -13,12 +13,17 @@ export default function Dashboard() {
 
 export function Navbar() {
   const navigate = useNavigate();
-  const user = localStorage.getItem("User");
+  const [search,setSearch] = useState<string|null>(null);
+  const user = localStorage.getItem("User") || sessionStorage.getItem("User");
   async function logoutHandler() {
     const response = await logoutUser();
     localStorage.removeItem("User");
     sessionStorage.removeItem("User");
     if (response === "Success") navigate("/");
+  }
+
+  function searchFunction(){
+    navigate("topicNews/" + search);
   }
 
   return (
@@ -88,12 +93,15 @@ export function Navbar() {
                 </li>
               </ul>
             </div>
-            <form className="form-inline">
+            <form className="form-inline" onSubmit={searchFunction}>
               <input
                 className="form-control mr-sm-2"
                 type="search"
-                placeholder="Search"
+                placeholder="Search For A Topic"
                 aria-label="Search"
+                value={search}
+                required = {true}
+                onChange={(e)=>{setSearch(e.target.value)}}
               />
               <button
                 className="btn btn-outline-success my-2 my-sm-0"
@@ -134,6 +142,7 @@ const Styles = {
     flexDirection: "row",
     alignItems: "center",
     marginRight: "10px",
+    cursor:"pointer",
   } as React.CSSProperties,
   dropdownToggle: {
     display: "flex",

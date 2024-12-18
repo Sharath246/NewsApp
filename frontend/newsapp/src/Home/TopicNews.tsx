@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import React from "react";
-import Card from "../Components/Card.tsx";
 import { newsType } from "../CommonTypes.ts";
 import { getNews } from "../api/getNews.ts";
+import DisplayNews from "../Components/DisplayNews.tsx";
 export default function TopicNews() {
   const props = useParams();
   const [news, setNews] = useState<newsType["articles"]>([]);
@@ -18,24 +18,7 @@ export default function TopicNews() {
     fetchNews();
   }, [query]);
 
-  return (
-    <div style={Styles.cardContainer}>
-      {news
-        .filter((news) => news.title !== "[Removed]")
-        .map((news) => {
-          return (
-            <Card
-              key={news.title}
-              title={news.title}
-              description={news.description}
-              link={news.url}
-              imageURL={news.urlToImage}
-              content={news.content}
-            />
-          );
-        })}
-    </div>
-  );
+  return <div style={Styles.cardContainer}>{<DisplayNews news={news} />}</div>;
 }
 
 const Styles = {

@@ -1,4 +1,5 @@
-export async function getNews(type: string, query: string) {
+import { news } from "../CommonTypes";
+export async function getNews(type: string, query: string) : Promise<{ articles: news[] }> {
   var url: string = "";
   const apiKey = "d82840cf2d394de2bbf45c8925147b65";
   if (type === "Everything") {
@@ -11,11 +12,13 @@ export async function getNews(type: string, query: string) {
   }
   try {
     const response = await fetch(url);
-    if (!response.ok) return { articles: [] };
+    if (!response.ok) throw Error;
     const allnews = await response.json();
+    if(allnews === null)
+      throw Error;
     return allnews;
   } catch (error) {
-    console.error("Error Message -> ", error);
-    return [];
+    console.error("Error Message in getNews -> ", error);
+    return { articles: [] };
   }
 }

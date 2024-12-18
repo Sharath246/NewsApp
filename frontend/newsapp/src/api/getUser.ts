@@ -1,6 +1,6 @@
 export async function getUser(
   email: string,
-  password: string,
+  password: string
 ): Promise<string> {
   const url = "http://localhost:8080/login";
   try {
@@ -12,6 +12,7 @@ export async function getUser(
         password: password,
       },
     });
+    if (!response.ok) throw Error;
     const val = await response.text();
     return val;
   } catch (error) {

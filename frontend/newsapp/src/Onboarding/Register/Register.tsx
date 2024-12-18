@@ -18,8 +18,13 @@ export default function Register() {
     } else {
       const value = await registerUser(email, password, name);
       if (value === "Success") {
-        if (remember) localStorage.setItem("User", name);
-        else sessionStorage.setItem("User", name);
+        if (remember) {
+          localStorage.setItem("User", name);
+          localStorage.setItem("Email", email);
+        } else {
+          sessionStorage.setItem("User", name);
+          sessionStorage.setItem("Email", email);
+        }
         navigation("/dashboard");
       } else if (value === "Failure") {
         /*do something here*/
@@ -108,7 +113,7 @@ export default function Register() {
               }}
             />
             <label style={{ display: "inline", marginLeft: "2%" }}>
-              Remember Me for 15 Days
+              Remember Me
             </label>
           </div>
           <div className="login-footer">

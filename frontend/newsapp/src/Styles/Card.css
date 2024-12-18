@@ -10,9 +10,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
 }
 
@@ -60,4 +58,9 @@
   max-height: 300px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.description {
+  color: black;
+  font-size: 1.5rem;
 }

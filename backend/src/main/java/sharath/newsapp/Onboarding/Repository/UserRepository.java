@@ -1,35 +1,25 @@
-package sharath.newsapp.Onboarding.Repository;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.web.context.annotation.RequestScope;
-
-import sharath.newsapp.Model.User;
-import sharath.newsapp.Onboarding.UserSession;
+package sharath.newsapp.onboarding.Repository;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import sharath.newsapp.Model.User;
 
 @Repository
-@RequestScope
-public class OnboardingRequest {
-
+public class UserRepository {
     private final JdbcTemplate jdbc;
-    private final ApplicationContext context;
 
-    public OnboardingRequest(JdbcTemplate jdbc,ApplicationContext context) {
+    public UserRepository(JdbcTemplate jdbc){
         this.jdbc = jdbc;
-        this.context = context;
     }
-
-    public boolean addUser(User user) {
+    
+    public boolean addUser(User user){
         if (checkUser(user.getEmail()) == null) {
             String addUser = "INSERT INTO USER (name,email,password) VALUES (?,?,?)";
             jdbc.update(addUser, user.getName(), user.getEmail(), user.getPassword());
-            UserSession session = context.getBean(UserSession.class);
-            session.setName(user.getName());
             return true;
         } else {
             return false;
@@ -49,8 +39,6 @@ public class OnboardingRequest {
         if (allUser.size() == 0) {
             return null;
         } else {
-            UserSession session = context.getBean(UserSession.class);
-            session.setName(allUser.get(0).getName());
             return allUser.get(0);
         }
     }
@@ -65,13 +53,6 @@ public class OnboardingRequest {
             return a;
         };
         return jdbc.query(checkUser, rowMap);
-    }
-
-    public boolean logoutUser(){
-        UserSession session = context.getBean(UserSession.class);
-        System.out.println("in Logout "+session.getName());
-        session.setName(null);
-        return true;
     }
 
 }

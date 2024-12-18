@@ -8,15 +8,25 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errorWP, setWPError] = useState(false);
   const [errorNR, setNRError] = useState(false);
+  const [remember, setRemember] = useState(false);
   const navigation = useNavigate();
   async function handleLogin(e) {
     e.preventDefault();
     const val = await getUser(email, password);
     if (val === "No Result") navigation("/404Error");
-    if (val === "Not Registered") setNRError(true);
+    else if (val === "Not Registered") setNRError(true);
     else if (val === "Wrong Password") setWPError(true);
     else {
-      localStorage.setItem("User", val);
+      if(remember)
+      {
+        localStorage.setItem("User", val);
+        localStorage.setItem("Email",email);
+      }
+      else
+      {
+        sessionStorage.setItem("User",val);
+        sessionStorage.setItem("Email", email);
+      }
       navigation("/dashboard");
     }
   }
@@ -61,6 +71,19 @@ export default function Login() {
               }}
               placeholder="Enter your Password"
             />
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              id="checkbox"
+              name="chekkbox"
+              onChange={(e) => {
+                setRemember(e.target.checked);
+              }}
+            />
+            <label style={{ display: "inline", marginLeft: "2%" }}>
+              Remember Me
+            </label>
           </div>
           <div className="login-footer">
             <button type="submit" className="submit-btn">

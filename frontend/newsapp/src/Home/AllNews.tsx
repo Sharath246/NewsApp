@@ -1,32 +1,29 @@
 import React from "react";
-import Card from "../Components/Card.tsx";
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { newsType } from "../CommonTypes.ts";
 import { getNews } from "../api/getNews.ts";
-import Bookmark from "../Components/Bookmark.tsx";
-import { bookmark } from "../api/bookmark.ts";
 import { useNavigate } from "react-router-dom";
+import DisplayNews from "../Components/DisplayNews.tsx";
 
 export default function AllNews() {
-  const [user, setUser] = useState("");
   const [news, setNews] = useState<newsType["articles"]>([]);
   const [query, setQuery] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
+    if (sessionStorage.getItem("User") === null) {
+      if (localStorage.getItem("User") === null) navigate("/notAuthorized");
+    }
     const fetchNews = async () => {
-      if (sessionStorage.getItem("User") === null) {
-        if (localStorage.getItem("User") === null) navigate("/notAuthorized");
-      }
       var allNews: newsType;
       if (query !== "") allNews = await getNews("Everything", query);
       else allNews = { status: "", totalResults: 0, articles: [] };
       setNews(allNews.articles);
     };
     fetchNews();
-  }, [query, user]);
+  }, [query,navigate]);
 
   return (
     <>
@@ -44,28 +41,7 @@ export default function AllNews() {
         </div>
       </div>
       {news.length !== 0 ? (
-        <div style={Styles.cardContainer}>
-          {news
-            .filter((news) => news.title !== "[Removed]")
-            .map((news, index) => {
-              return (
-                <Card
-                  key={index}
-                  title={news.title}
-                  description={news.description}
-                  link={news.url}
-                  imageURL={news.urlToImage}
-                  bookMark={
-                    <Bookmark
-                      storeBookmark={async () => {
-                        return await bookmark(news);
-                      }}
-                    />
-                  }
-                />
-              );
-            })}
-        </div>
+        <div style={Styles.cardContainer}>{<DisplayNews news={news} />}</div>
       ) : (
         <div style={{ display: "flex", justifyContent: "center" }}>
           No News To Display. Select Atleast one topic in the Filters.
