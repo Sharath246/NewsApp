@@ -5,6 +5,9 @@ import { newsType } from "../CommonTypes.ts";
 import LoginModal from "../Components/LoginModal.tsx";
 import { getNews } from "../api/getNews.ts";
 import DisplayNews from "../Components/DisplayNews.tsx";
+import { like } from "../api/like.ts";
+import { bookmark } from "../api/bookmark.ts";
+
 export default function Home() {
   const location = useLocation();
   const navigation = useNavigate();
@@ -21,6 +24,7 @@ export default function Home() {
     };
     fetchNews();
   }, [navigation, location.pathname]);
+
   return (
     <div>
       {loginModal && (
@@ -50,9 +54,13 @@ export default function Home() {
           )}
         </div>
       </div>
-      <div style={Styles.cardContainer}>
-        {<DisplayNews news={news}/>}
-      </div>
+      <DisplayNews
+        news={news}
+        menuOptions={[
+          { option: "Bookmark", function: bookmark },
+          { option: "Like", function: like },
+        ]}
+      />
     </div>
   );
 }

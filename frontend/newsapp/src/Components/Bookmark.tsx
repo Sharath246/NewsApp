@@ -40,7 +40,7 @@ const Styles = {
     cursor: "pointer",
     fontSize: "1.5rem",
     color: "#007bff",
-    outline: "none"
+    outline: "none",
   } as React.CSSProperties,
   bookmarkButtonHover: {
     color: "#0056b3",

@@ -1,5 +1,5 @@
 import Card from "../Components/Card.tsx";
-import React, { useEffect } from "react";
+import React from "react";
 export default function Topic() {
   const news_topics = [
     {

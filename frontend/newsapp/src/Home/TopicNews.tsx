@@ -4,6 +4,8 @@ import React from "react";
 import { newsType } from "../CommonTypes.ts";
 import { getNews } from "../api/getNews.ts";
 import DisplayNews from "../Components/DisplayNews.tsx";
+import { bookmark } from "../api/bookmark.ts";
+import { like } from "../api/like.ts";
 export default function TopicNews() {
   const props = useParams();
   const [news, setNews] = useState<newsType["articles"]>([]);
@@ -18,7 +20,19 @@ export default function TopicNews() {
     fetchNews();
   }, [query]);
 
-  return <div style={Styles.cardContainer}>{<DisplayNews news={news} />}</div>;
+  return (
+    <div style={Styles.cardContainer}>
+      {
+        <DisplayNews
+          news={news}
+          menuOptions={[
+            { option: "Bookmark", function: bookmark },
+            { option: "Like", function: like },
+          ]}
+        />
+      }
+    </div>
+  );
 }
 
 const Styles = {

@@ -40,7 +40,7 @@ const Styles = {
     cursor: "pointer",
     fontSize: "1.5rem",
     color: "#e63946",
-    outline: "none"
+    outline: "none",
   } as React.CSSProperties,
   likeButtonHover: {
     color: "#c62828",

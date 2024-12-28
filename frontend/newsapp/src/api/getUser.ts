@@ -1,6 +1,6 @@
 export async function getUser(
   email: string,
-  password: string
+  password: string,
 ): Promise<string> {
   const url = "http://localhost:8080/login";
   try {

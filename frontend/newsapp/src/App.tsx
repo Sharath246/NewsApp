@@ -12,6 +12,8 @@ import TopicNews from "./Home/TopicNews.tsx";
 import React from "react";
 import Settings from "./Home/Settings/Settings.tsx";
 import NotAuthorizedPage from "./Components/NotAuthorized.tsx";
+import Sudoku from "./Components/Sudoku.tsx";
+import LikesAndBookmarks from "./Home/LikesAndBookmarks.tsx";
 
 function App() {
   return (
@@ -24,7 +26,9 @@ function App() {
       <Route path="notAuthorized" element={<NotAuthorizedPage />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route index element={<Home />} />
+        <Route path="l&b" element={<LikesAndBookmarks />} />
         <Route path="allNews" element={<AllNews />} />
+        <Route path="Sudoku" element={<Sudoku initialArray={[]} />} />
         <Route path="topics" element={<Topic />} />
         <Route path="topicNews/:topic?" element={<TopicNews />} />
         <Route path="settings" element={<Settings />} />

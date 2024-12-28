@@ -13,16 +13,18 @@ export default function Dashboard() {
 
 export function Navbar() {
   const navigate = useNavigate();
-  const [search,setSearch] = useState<string|null>(null);
+  const [search, setSearch] = useState<string>("");
   const user = localStorage.getItem("User") || sessionStorage.getItem("User");
   async function logoutHandler() {
     const response = await logoutUser();
-    localStorage.removeItem("User");
-    sessionStorage.removeItem("User");
-    if (response === "Success") navigate("/");
+    if (response === "Success") {
+      localStorage.removeItem("User");
+      sessionStorage.removeItem("User");
+      navigate("/");
+    }
   }
 
-  function searchFunction(){
+  function searchFunction() {
     navigate("topicNews/" + search);
   }
 
@@ -82,7 +84,12 @@ export function Navbar() {
                   </div>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <Link className="dropdown-item" to="Sudoku">
+                    Play Sudoku
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="l&b">
                     Your Activity
                   </Link>
                 </li>
@@ -100,8 +107,10 @@ export function Navbar() {
                 placeholder="Search For A Topic"
                 aria-label="Search"
                 value={search}
-                required = {true}
-                onChange={(e)=>{setSearch(e.target.value)}}
+                required={true}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
               />
               <button
                 className="btn btn-outline-success my-2 my-sm-0"
@@ -142,7 +151,7 @@ const Styles = {
     flexDirection: "row",
     alignItems: "center",
     marginRight: "10px",
-    cursor:"pointer",
+    cursor: "pointer",
   } as React.CSSProperties,
   dropdownToggle: {
     display: "flex",

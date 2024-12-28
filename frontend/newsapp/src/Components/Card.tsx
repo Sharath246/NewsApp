@@ -2,16 +2,21 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../Styles/Card.css";
 import Modal from "react-bootstrap/Modal";
+import { Dropdown } from "react-bootstrap";
 
 type CardProps = {
-  link?: string;
+  link: string;
   imageURL?: string;
-  title?: string;
+  title: string;
   modal?: boolean;
   description?: string;
   content?: string;
-  bookMark?: React.JSX.Element;
-  like?: React.JSX.Element;
+  bookMark?: () => Promise<string>;
+  like?: () => Promise<string>;
+  menuOptions: {
+    option: string;
+    function: () => Promise<void>;
+  }[];
 };
 
 export default function Card({
@@ -21,12 +26,12 @@ export default function Card({
   modal = true,
   description = "",
   content = "",
-  bookMark = null,
-  like = null,
+  menuOptions,
 }: CardProps) {
   const placeholderImage = "https://via.placeholder.com/150";
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
+
   return (
     <div className="cardLayout">
       {modal && (
@@ -56,17 +61,49 @@ export default function Card({
         <div className="cardTitle">
           <p>{title}</p>
         </div>
-        {bookMark}{like}
       </div>
+      <Dropdown
+        className="cardDropdown"
+        style={{ position: "absolute", bottom: "10px", right: "10px" }}
+      >
+        <Dropdown.Toggle
+          variant="secondary"
+          id="dropdown-basic"
+          style={{ backgroundColor: "#e1e4e8", border: "none" }}
+        >
+          ⋮
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          {menuOptions.map((option, index) => {
+            return (
+              <Dropdown.Item key={index} onClick={option.function}>
+                {option.option}
+              </Dropdown.Item>
+            );
+          })}
+        </Dropdown.Menu>
+      </Dropdown>
     </div>
   );
 }
 
-function MyVerticallyCenteredModal(props) {
+type MyVerticallyCenteredModalProps = {
+  show: boolean;
+  title: string;
+  link: string;
+  content: string;
+  imageURL: string;
+  description: string;
+  onHide: () => void;
+};
+
+function MyVerticallyCenteredModal(props: MyVerticallyCenteredModalProps) {
   const placeholderImage = "https://via.placeholder.com/150";
   return (
     <Modal
-      {...props}
+      show={props.show}
+      onHide={props.onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered

@@ -6,6 +6,8 @@ import { newsType } from "../CommonTypes.ts";
 import { getNews } from "../api/getNews.ts";
 import { useNavigate } from "react-router-dom";
 import DisplayNews from "../Components/DisplayNews.tsx";
+import { bookmark } from "../api/bookmark.ts";
+import { like } from "../api/like.ts";
 
 export default function AllNews() {
   const [news, setNews] = useState<newsType["articles"]>([]);
@@ -23,7 +25,7 @@ export default function AllNews() {
       setNews(allNews.articles);
     };
     fetchNews();
-  }, [query,navigate]);
+  }, [query, navigate]);
 
   return (
     <>
@@ -41,7 +43,17 @@ export default function AllNews() {
         </div>
       </div>
       {news.length !== 0 ? (
-        <div style={Styles.cardContainer}>{<DisplayNews news={news} />}</div>
+        <div style={Styles.cardContainer}>
+          {
+            <DisplayNews
+              news={news}
+              menuOptions={[
+                { option: "Bookmark", function: bookmark },
+                { option: "Like", function: like },
+              ]}
+            />
+          }
+        </div>
       ) : (
         <div style={{ display: "flex", justifyContent: "center" }}>
           No News To Display. Select Atleast one topic in the Filters.

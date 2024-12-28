@@ -17,14 +17,11 @@ export default function Login() {
     else if (val === "Not Registered") setNRError(true);
     else if (val === "Wrong Password") setWPError(true);
     else {
-      if(remember)
-      {
+      if (remember) {
         localStorage.setItem("User", val);
-        localStorage.setItem("Email",email);
-      }
-      else
-      {
-        sessionStorage.setItem("User",val);
+        localStorage.setItem("Email", email);
+      } else {
+        sessionStorage.setItem("User", val);
         sessionStorage.setItem("Email", email);
       }
       navigation("/dashboard");
