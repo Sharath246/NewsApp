@@ -26,7 +26,7 @@ public class OnboardingController {
     @GetMapping("/login")
     public ResponseEntity<String> loginHandler(@RequestHeader String email, @RequestHeader String password) {
         OnboardingService onboardingRequest = context.getBean(OnboardingService.class);
-        String response = onboardingRequest.loginUser(email,password);
+        String response = onboardingRequest.loginUser(email, password);
         return ResponseEntity.ok(response);
     }
 
@@ -39,22 +39,24 @@ public class OnboardingController {
 
     // @GetMapping("/getAll")
     // public List<User> getAllUSers() {
-    //     OnboardingRequest onboardingRequest = context.getBean(OnboardingRequest.class);
-    //     return onboardingRequest.allUsers();
+    // OnboardingRequest onboardingRequest =
+    // context.getBean(OnboardingRequest.class);
+    // return onboardingRequest.allUsers();
     // }
 
-    // @PostMapping("/logout")
-    // public String logoutUser() {
-    //     OnboardingRequest onboardingRequest = context.getBean(OnboardingRequest.class);
-    //     if (onboardingRequest.logoutUser()) {
-    //         return "Success";
-    //     } else
-    //         return "Failure";
-    // }
+    @PostMapping("/logout")
+    public String logoutUser() {
+        OnboardingService onboardingRequest = context.getBean(OnboardingService.class);
+        if (onboardingRequest.logoutUser()) {
+            return "Success";
+        } else
+            return "Failed";
+    }
 
-    // @GetMapping("/getsession")
-    // public String getUserSession() {
-    //     return session.getName();
-    // }
+    @GetMapping("/getsession")
+    public String getUserSession() {
+        OnboardingService onboardingRequest = context.getBean(OnboardingService.class);
+        return onboardingRequest.getUserSession();
+    }
 
 }

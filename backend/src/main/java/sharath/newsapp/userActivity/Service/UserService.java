@@ -5,34 +5,43 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
-import sharath.newsapp.Model.User;
 import sharath.newsapp.userActivity.Model.News;
-import sharath.newsapp.userActivity.Repository.UserRepository;
+import sharath.newsapp.userActivity.Repository.ActivityRepository;
 
 @RequestScope
 @Service
 public class UserService {
-    private final UserRepository userRepo;
+    private final ActivityRepository userRepo;
 
-    public UserService(UserRepository userRepo) {
+    public UserService(ActivityRepository userRepo) {
         this.userRepo = userRepo;
     }
 
-    public String bookMark(User user, News news) {
-        boolean addedUser = userRepo.addBookMark(user, news);
-        if (addedUser) {
+    public String addbookMark(String email, News news) {
+        boolean bookmarked = userRepo.addBookMark(email, news);
+        if (bookmarked) {
             return "Success";
         } else {
-            return "Failure";
+            return "Failed";
         }
     }
 
-    public String like(User user, News news) {
-        boolean addedUser = userRepo.addBookMark(user, news);
-        if (addedUser) {
+    public String addlike(String email, News news) {
+        boolean liked = userRepo.addLike(email, news);
+        if (liked) {
             return "Success";
         } else {
-            return "Failure";
+            return "Failed";
+        }
+    }
+
+    public String removeNews(String email, String url,String source){
+        boolean removed = userRepo.removeNews(email,url,source);
+        if(removed){
+            return "Success";
+        }
+        else{
+            return "Failed";
         }
     }
 
