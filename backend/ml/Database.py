@@ -1,5 +1,4 @@
-from mysql.connector import (connection)
-from mysql.connector import errorcode
+from mysql.connector import (connection,MySQLConnection)
 
 def connect_to_DB():
     try:
@@ -12,23 +11,28 @@ def connect_to_DB():
 def create_table(sql):
     pass
 
-def insert_column(table_name,sql):
-    pass
+def update_column(cnx:MySQLConnection,sql:str):
+    cursor = cnx.cursor()
+    try:
+        cursor.execute(sql)
+        cnx.commit()
+    except:
+        print(f'Error in inserting into the table with sql {sql}')
+    cursor.close()
 
-def update_column(table_name,sql):
-    pass
-
-def get_all(cnx,table_name):
+def get_all(cnx:MySQLConnection,table_name:str):
     if cnx:
         cursor = cnx.cursor()
         sql = 'select * from ' + table_name + ";"
         cursor.execute(sql)
-        for (id,email,name,password) in cursor:
-            print(id," ",email, " " ,name, " " , password)
+        rows = []
+        for row in cursor:
+            rows.append(row)
         cursor.close()
-        # cnx.close()
+        return rows
     else:
         print("some error")
+        return None
 
 def get_column(cnx,table_name,column_name,column_value):
     rows = None
@@ -38,10 +42,6 @@ def get_column(cnx,table_name,column_name,column_value):
         try:
             cursor.execute(sql)
             rows = cursor.fetchall()
-            if rows:
-                print(rows)
-            else:
-                print('no rows')
         except:
             print('error in conection')
         cursor.close()
