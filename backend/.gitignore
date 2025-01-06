@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Python Cache Files ###
+/ml/__pycache__/
