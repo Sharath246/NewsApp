@@ -13,10 +13,11 @@ type CardProps = {
   content?: string;
   bookMark?: () => Promise<string>;
   like?: () => Promise<string>;
-  menuOptions: {
+  menuOptions?: {
     option: string;
-    function: () => Promise<void>;
+    function: (index?: number) => Promise<void>;
   }[];
+  topics?: string[];
 };
 
 export default function Card({
@@ -27,6 +28,7 @@ export default function Card({
   description = "",
   content = "",
   menuOptions,
+  topics = [],
 }: CardProps) {
   const placeholderImage = "https://via.placeholder.com/150";
   const [modalShow, setModalShow] = useState(false);
@@ -62,28 +64,44 @@ export default function Card({
           <p>{title}</p>
         </div>
       </div>
-      <Dropdown
-        className="cardDropdown"
-        style={{ position: "absolute", bottom: "10px", right: "10px" }}
-      >
-        <Dropdown.Toggle
-          variant="secondary"
-          id="dropdown-basic"
-          style={{ backgroundColor: "#e1e4e8", border: "none" }}
+      <div style={{ position: "absolute", bottom: "10px", left: "10px" }}>
+        <div className="topicsContainer">
+          {topics && topics.map((item, index) => (
+            <span key={index} className="topicTag">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+      {menuOptions && (
+        <Dropdown
+          className="cardDropdown"
+          style={{ position: "absolute", bottom: "10px", right: "10px" }}
         >
-          ⋮
-        </Dropdown.Toggle>
+          <Dropdown.Toggle
+            variant="secondary"
+            id="dropdown-basic"
+            style={{ backgroundColor: "#e1e4e8", border: "none" }}
+          >
+            ⋮
+          </Dropdown.Toggle>
 
-        <Dropdown.Menu>
-          {menuOptions.map((option, index) => {
-            return (
-              <Dropdown.Item key={index} onClick={option.function}>
-                {option.option}
-              </Dropdown.Item>
-            );
-          })}
-        </Dropdown.Menu>
-      </Dropdown>
+          <Dropdown.Menu>
+            {menuOptions.map((option, index) => {
+              return (
+                <Dropdown.Item
+                  key={index}
+                  onClick={() => {
+                    option.function(index);
+                  }}
+                >
+                  {option.option}
+                </Dropdown.Item>
+              );
+            })}
+          </Dropdown.Menu>
+        </Dropdown>
+      )}
     </div>
   );
 }

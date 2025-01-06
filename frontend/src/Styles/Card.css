@@ -106,3 +106,23 @@
   background-color: #c3e1ff;
   color: #0260c4;
 }
+
+.topicsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.topicTag {
+  background-color: #f3f4f6;
+  color: #374151;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: default;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+

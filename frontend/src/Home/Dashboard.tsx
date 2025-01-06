@@ -31,7 +31,7 @@ export function Navbar() {
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark bg-dark"
-      style={{ padding: "1%", marginBottom: "1%" }}
+      style={{ padding: "1%",height:"100%"}}
     >
       NewsApp
       <div

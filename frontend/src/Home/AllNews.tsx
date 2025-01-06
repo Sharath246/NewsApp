@@ -15,6 +15,7 @@ export default function AllNews() {
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
+    const abortController = new AbortController();
     if (sessionStorage.getItem("User") === null) {
       if (localStorage.getItem("User") === null) navigate("/notAuthorized");
     }
@@ -25,6 +26,9 @@ export default function AllNews() {
       setNews(allNews.articles);
     };
     fetchNews();
+    return () => {
+      abortController.abort();
+    };
   }, [query, navigate]);
 
   return (

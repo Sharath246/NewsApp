@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import React from "react";
 import { newsType } from "../CommonTypes.ts";
@@ -7,25 +7,41 @@ import { getNews } from "../api/getNews.ts";
 import DisplayNews from "../Components/DisplayNews.tsx";
 import { like } from "../api/like.ts";
 import { bookmark } from "../api/bookmark.ts";
+import { getTopic } from "../api/topic.ts";
+import LoadingSpinner from "../Components/Loading.tsx";
 
 export default function Home() {
-  const location = useLocation();
-  const navigation = useNavigate();
   const [loginModal, setLoginModal] = useState(true);
   const [user, setUser] = useState<string | null>(null);
   const [news, setNews] = useState<newsType["articles"]>([]);
+  const [topics, setTopics] = useState<string[][]>([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
+    const abortController = new AbortController();
     const user = localStorage.getItem("User") || sessionStorage.getItem("User");
     setUser(user);
     if (user !== null) setLoginModal(false);
     const fetchNews = async () => {
       const allNews = await getNews("TopHeadlines", "country=us");
+      const article_topics: string[][] = [];
       setNews(allNews.articles);
+      const articles = allNews.articles;
+      for (let i = 0; i < articles.length; i++) {
+        const response = await getTopic(articles[i].description);
+        article_topics.push(response);
+      }
+      setTopics(article_topics);
+      setLoading(false);
     };
     fetchNews();
-  }, [navigation, location.pathname]);
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
-  return (
+  return loading === true ? (
+    <LoadingSpinner />
+  ) : (
     <div>
       {loginModal && (
         <LoginModal
@@ -56,6 +72,7 @@ export default function Home() {
       </div>
       <DisplayNews
         news={news}
+        topics={topics}
         menuOptions={[
           { option: "Bookmark", function: bookmark },
           { option: "Like", function: like },

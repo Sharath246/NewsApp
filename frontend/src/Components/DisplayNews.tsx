@@ -1,29 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Card from "./Card";
-import { bookmark } from "../api/bookmark";
-import { like } from "../api/like";
 import { news, newsType } from "../CommonTypes";
-import { Toast, ToastContainer, ToastHeader } from "react-bootstrap";
+import { Toast, ToastContainer } from "react-bootstrap";
 
 export default function DisplayNews({
   news,
   menuOptions,
+  topics = []
 }: {
   news: newsType["articles"];
   menuOptions: {
     option: string;
     function: (news: news, email: string) => Promise<string>;
+    setFunction?: Dispatch<SetStateAction<any[]>>;
   }[];
+  topics?: string[][]
 }) {
-  const [user, setUser] = useState<string | null>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   useEffect(() => {
-    const user = localStorage.getItem("User") || sessionStorage.getItem("User");
     const email =
       localStorage.getItem("Email") || sessionStorage.getItem("Email");
-    setUser(user);
     setEmail(email);
   }, []);
 
@@ -37,7 +35,7 @@ export default function DisplayNews({
         message = "Successfully removed News from your Bookmarks";
       else if (option === "Remove from Likes")
         message = "Successfully removed News from your Likes";
-      else message = "Failed ! Please try again";
+      else message = "Failed ! Please try again Later";
     } else {
       message = "Failed ! Please try again";
     }
@@ -80,13 +78,23 @@ export default function DisplayNews({
                 description={news.description || ""}
                 link={news.url}
                 imageURL={news.urlToImage}
+                topics = {topics[index]}
                 content={news.content || ""}
                 menuOptions={menuOptions.map((option) => {
                   return {
                     option: option.option,
-                    function: async () => {
+                    function: async (index:number) => {
                       const response = await option.function(news, email);
                       handleToast(response, option.option);
+                      if (option.setFunction)
+                        if (option.option.match("^Remove.*")) {
+                          option.setFunction((prev) => [
+                            ...prev.slice(0, index),
+                            ...prev.slice(index + 1),
+                          ]);
+                        } else {
+                          option.setFunction((prev) => [...prev, news]);
+                        }
                     },
                   };
                 })}

@@ -1,0 +1,52 @@
+.lab-page-container {
+  padding: 2%;
+  background-color: #e3f2fd;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.lab-dropdown {
+  margin-bottom: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lab-dropdown-button {
+  width: 60%;
+  background-color: #427a9b;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;;
+  text-align: center;
+}
+
+.lab-dropdown-button:hover {
+  background-color: #01579b;
+  transform: scale(1.02);
+}
+
+.lab-dropdown-content {
+  margin-top: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.lab-dropdown-content.show {
+  max-height: 100%;
+  opacity: 1;
+}
