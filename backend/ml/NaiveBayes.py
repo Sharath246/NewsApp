@@ -61,8 +61,8 @@ def naive_predict(data: pd.DataFrame,text: str):
                 x += math.log(1 / (topic_sum + num_of_words))
         probability[i][0] = x
     probability = sorted(probability, key = lambda x: x[0], reverse=True)
-    response = [master_topics[probability[i][1]] for i in range(3)]
-    return response
+    return [master_topics[probability[i][1]] for i in range(3)]
+    # return response
 
 def naive_train(data:pd.DataFrame, new_words:set[str], texts:list[str], topics:list[str]):
     updated_words = set()
