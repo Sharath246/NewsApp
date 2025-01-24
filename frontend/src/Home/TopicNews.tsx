@@ -6,7 +6,7 @@ import { getNews } from "../api/getNews.ts";
 import DisplayNews from "../Components/DisplayNews.tsx";
 import { bookmark } from "../api/bookmark.ts";
 import { like } from "../api/like.ts";
-import { trainModel } from "../api/topic.ts";
+// import { trainModel } from "../api/topic.ts";
 import LoadingSpinner from "../Components/Loading.tsx";
 export default function TopicNews() {
   const props = useParams();
@@ -19,7 +19,7 @@ export default function TopicNews() {
     const abortController = new AbortController();
     const fetchNews = async () => {
       const allNews = await getNews("Everything", query);
-      setNews(allNews.articles);
+      setNews(allNews);
       // if (props?.topic) trainModel(allNews.articles, props?.topic);
       setLoading(false);
     };
@@ -30,26 +30,13 @@ export default function TopicNews() {
   }, [query,props?.topic]);
 
   return ( loading ? <LoadingSpinner/> : 
-    <div style={Styles.cardContainer}>
-      {
-        <DisplayNews
+    <DisplayNews
           news={news}
           menuOptions={[
             { option: "Bookmark", function: bookmark },
             { option: "Like", function: like },
           ]}
         />
-      }
-    </div>
   );
 }
 
-const Styles = {
-  cardContainer: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    gap: "10px",
-    padding: "10px",
-  } as React.CSSProperties,
-};

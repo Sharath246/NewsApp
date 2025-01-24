@@ -4,10 +4,8 @@ import "./Landing.css";
 export default function Landing() {
   const [user, setUser] = useState<string | null>(null);
   useEffect(() => {
-    if (localStorage.getItem("User") === null) {
-      if (sessionStorage.getItem("User") !== null)
-        setUser(sessionStorage.getItem("User"));
-    } else setUser(localStorage.getItem("User"));
+    const userName = localStorage.getItem('User') || sessionStorage.getItem('User');
+    setUser(userName);
   }, [user]);
   return (
     <div className="landing-container">
@@ -52,6 +50,7 @@ export default function Landing() {
 
       <footer className="footer">
         <p>&copy; 2024 NewsApp. All rights reserved.</p>
+        <Link to="/DT">DT</Link>
       </footer>
     </div>
   );

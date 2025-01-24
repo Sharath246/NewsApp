@@ -14,11 +14,15 @@ import Settings from "./Home/Settings/Settings.tsx";
 import NotAuthorizedPage from "./Components/NotAuthorized.tsx";
 import Sudoku from "./Components/Sudoku.tsx";
 import LikesAndBookmarks from "./Home/LikesAndBookmarks.tsx";
+import DTLanding from "./DT/DTLanding.tsx";
+import DateTasks from "./DT/DateTasks.tsx";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/DT" element={<DTLanding/>} />
+      <Route path="/dateTasks" element={<DateTasks />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/about" element={<About />} />

@@ -14,6 +14,6 @@ export type news = {
 
 export type newsType = {
   status: string;
-  totalResults: Number;
+  totalResults: number;
   articles: news[];
 };

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import React from "react";
 import { newsType } from "../CommonTypes.ts";
 import LoginModal from "../Components/LoginModal.tsx";
@@ -7,8 +7,8 @@ import { getNews } from "../api/getNews.ts";
 import DisplayNews from "../Components/DisplayNews.tsx";
 import { like } from "../api/like.ts";
 import { bookmark } from "../api/bookmark.ts";
-import { getTopic } from "../api/topic.ts";
 import LoadingSpinner from "../Components/Loading.tsx";
+import { topicContext } from "../Contexts/TopicContext.ts";
 
 export default function Home() {
   const [loginModal, setLoginModal] = useState(true);
@@ -16,24 +16,50 @@ export default function Home() {
   const [news, setNews] = useState<newsType["articles"]>([]);
   const [topics, setTopics] = useState<string[][]>([]);
   const [loading, setLoading] = useState(true);
+  const getTopic: WebSocket = useContext(topicContext);
   useEffect(() => {
+    localStorage.removeItem("News");
+    localStorage.removeItem("Topics");
     const abortController = new AbortController();
     const user = localStorage.getItem("User") || sessionStorage.getItem("User");
+    let cached_news = sessionStorage.getItem("News"),
+      cached_topics = sessionStorage.getItem("Topics");
     setUser(user);
     if (user !== null) setLoginModal(false);
     const fetchNews = async () => {
+      let allTopics: string[][] = [];
       const allNews = await getNews("TopHeadlines", "country=us");
-      const article_topics: string[][] = [];
-      setNews(allNews.articles);
-      const articles = allNews.articles;
-      for (let i = 0; i < articles.length; i++) {
-        const response = await getTopic(articles[i].description);
-        article_topics.push(response);
-      }
-      setTopics(article_topics);
+      setNews(allNews.slice(0, allNews.length / 2));
+
+      const getAllTopics = () =>
+        new Promise<void>((resolve) => {
+          let receivedCount = 0;
+          getTopic.onmessage = (event) => {
+            allTopics.push(JSON.parse(event.data));
+            receivedCount++;
+            if (receivedCount === allNews.length) {
+              resolve();
+            }
+          };
+
+          for (let i = 0; i < allNews.length; i++) {
+            getTopic.send(allNews[i].description);
+          }
+        });
+
+      await getAllTopics();
+      setTopics(allTopics.slice(0, allTopics.length / 2));
+      sessionStorage.setItem("News", JSON.stringify(allNews));
+      sessionStorage.setItem("Topics", JSON.stringify(allTopics));
       setLoading(false);
     };
-    fetchNews();
+    if (cached_news === undefined || cached_news === null) fetchNews();
+    else {
+      console.log(JSON.parse(cached_news).length);
+      setNews(JSON.parse(cached_news).slice(0, 16));
+      setTopics(JSON.parse(cached_topics).slice(0, 16));
+      setLoading(false);
+    }
     return () => {
       abortController.abort();
     };
@@ -50,10 +76,10 @@ export default function Home() {
           }}
         />
       )}
-      <center>
-        <h1>Hello {user !== null ? user : "User"}</h1>
-      </center>
       <div style={Styles.feature_heading}>
+        <center>
+          <h1>Hello {user !== null ? user : "User"}</h1>
+        </center>
         <div>
           <h4>Here is your daily feature: -</h4>
         </div>
@@ -83,17 +109,14 @@ export default function Home() {
 }
 
 const Styles = {
-  cardContainer: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    gap: "10px",
-    padding: "10px",
-  } as React.CSSProperties,
   feature_heading: {
     display: "flex",
-    padding: "0 6%",
+    alignItems: "center",
     justifyContent: "space-between",
-    color: "#4e607a",
-  },
+    padding: "20px 6%",
+    backgroundColor: "#1e293b",
+    color: "#ffffff",
+    borderBottom: "2px solid #0f172a",
+    marginBottom: "20px",
+  } as React.CSSProperties,
 };

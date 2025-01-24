@@ -49,10 +49,6 @@ export default function DisplayNews({
       <div style={Styles.toastContainer}>
         <ToastContainer
           className="p-3"
-          style={{
-            position: "absolute",
-            top: "10px",
-          }}
         >
           <Toast
             show={showToast}
@@ -69,7 +65,6 @@ export default function DisplayNews({
       </div>
       <div style={Styles.cardContainer}>
         {news
-          .filter((news: news) => news.title !== "[Removed]")
           .map((news: news, index: number) => {
             return (
               <Card
@@ -108,13 +103,20 @@ export default function DisplayNews({
 
 const Styles = {
   cardContainer: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "10px",
-    padding: "10px",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+    gap: "20px", // Adds spacing between cards
+    padding: "20px",
+    backgroundColor: "#f7f9fc",
+    borderRadius: "8px",
   } as React.CSSProperties,
   toastContainer: {
     display: "flex",
     justifyContent: "center",
+    position: "fixed",
+    top: "20px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    zIndex: 1050,
   } as React.CSSProperties,
 };

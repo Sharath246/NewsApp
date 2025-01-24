@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { logoutUser } from "../api/logoutUser";
+import { setUserTopics } from "../api/setuserTopics";
+import { topicContext } from "../Contexts/TopicContext";
 
 export default function Dashboard() {
+  const connection = new WebSocket('ws://localhost:9000/naive_predict')
   return (
-    <>
+    <topicContext.Provider value={connection}>
       <Navbar />
       <Outlet />
-    </>
+    </topicContext.Provider>
   );
 }
 
@@ -17,6 +20,14 @@ export function Navbar() {
   const user = localStorage.getItem("User") || sessionStorage.getItem("User");
   async function logoutHandler() {
     const response = await logoutUser();
+    if(sessionStorage.getItem('TopicsChanged'))
+    {
+      const topics = sessionStorage.getItem('UserTopics') || localStorage.getItem('UserTopics')
+      const email = localStorage.getItem('Email') || sessionStorage.getItem('Email')
+      const topicsChange = await setUserTopics(topics,email);
+      if(topicsChange === 'Success')
+        sessionStorage.removeItem('TopicsChanged')
+    }
     if (response === "Success") {
       localStorage.removeItem("User");
       sessionStorage.removeItem("User");

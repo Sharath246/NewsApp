@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import { Button, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { newsType } from "../CommonTypes.ts";
+import { news, newsType } from "../CommonTypes.ts";
 import { getNews } from "../api/getNews.ts";
 import { useNavigate } from "react-router-dom";
 import DisplayNews from "../Components/DisplayNews.tsx";
@@ -12,6 +12,7 @@ import { like } from "../api/like.ts";
 export default function AllNews() {
   const [news, setNews] = useState<newsType["articles"]>([]);
   const [query, setQuery] = useState("");
+  const [topics, setTopics] = useState<string[][]>([]);
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
@@ -20,12 +21,20 @@ export default function AllNews() {
       if (localStorage.getItem("User") === null) navigate("/notAuthorized");
     }
     const fetchNews = async () => {
-      var allNews: newsType;
+      var allNews: news[];
       if (query !== "") allNews = await getNews("Everything", query);
-      else allNews = { status: "", totalResults: 0, articles: [] };
-      setNews(allNews.articles);
+      else allNews = [];
+      setNews(allNews);
+      setTopics([]);
     };
-    fetchNews();
+    if(query !== "")
+      fetchNews();
+    else{
+      const cached_news = localStorage.getItem("News") || sessionStorage.getItem('News'),
+        cached_topics = localStorage.getItem("Topics") || sessionStorage.getItem('Topics');
+      setNews(JSON.parse(cached_news));
+      setTopics(JSON.parse(cached_topics));
+    }
     return () => {
       abortController.abort();
     };
@@ -51,6 +60,7 @@ export default function AllNews() {
           {
             <DisplayNews
               news={news}
+              topics={topics}
               menuOptions={[
                 { option: "Bookmark", function: bookmark },
                 { option: "Like", function: like },
@@ -241,20 +251,25 @@ const Styles = {
   mainHeading: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
+    padding: "20px",
+    backgroundColor: "#f8f9fa",
+    borderBottom: "1px solid #e9ecef",
   },
   cardContainer: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    gap: "10px",
-    padding: "10px",
+    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+    gap: "20px",
+    padding: "20px",
   } as React.CSSProperties,
   topic: {
-    display: "flex",
-    padding: "1%",
-    backgroundColor: "grey",
-    color: "black",
-    justifyContent: "space-between",
-    margin: "1%",
+    display: "inline-flex",
+    padding: "5px 10px",
+    backgroundColor: "#e0e0e0",
+    borderRadius: "20px",
+    fontSize: "0.9rem",
+    margin: "5px",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#333",
   },
 };

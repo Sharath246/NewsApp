@@ -3,7 +3,7 @@ import { trainDecorator } from "../Decorators/NaiveBayesDecorator";
 
 export async function getTopic(
   description: string
-): Promise<string[]> {
+): Promise<string[][]> {
   const url = "http://127.0.0.1:9000/naive/predict";
   try {
     const response = await fetch(url, {

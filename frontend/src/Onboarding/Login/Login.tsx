@@ -13,23 +13,24 @@ export default function Login() {
   async function handleLogin(e) {
     e.preventDefault();
     const val = await getUser(email, password);
-    if (val === "No Result") navigation("/404Error");
-    else if (val === "Not Registered") setNRError(true);
-    else if (val === "Wrong Password") setWPError(true);
+    if (val["response"] === "Internal Error") navigation("/404Error");
+    else if (val["response"] === "Not Registered") setNRError(true);
+    else if (val["response"] === "Wrong Password") setWPError(true);
     else {
       if (remember) {
-        localStorage.setItem("User", val);
-        localStorage.setItem("Email", email);
-      } else {
-        sessionStorage.setItem("User", val);
-        sessionStorage.setItem("Email", email);
+        localStorage.setItem("User", val["name"]);
+        localStorage.setItem("Email", val["email"]);
+        localStorage.setItem("UserTopics", val["topics"]);
       }
+      sessionStorage.setItem("User", val["name"]);
+      sessionStorage.setItem("Email", val["email"]);
+      sessionStorage.setItem("UserTopics", val["topics"]);
       navigation("/dashboard");
     }
   }
 
   useEffect(() => {
-    const user = localStorage.getItem("User");
+    const user = localStorage.getItem("User") || sessionStorage.getItem("User");
     if (user !== null) navigation("/dashboard/" + user);
   }, [navigation]);
 

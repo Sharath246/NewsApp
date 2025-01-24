@@ -15,9 +15,10 @@ type CardProps = {
   like?: () => Promise<string>;
   menuOptions?: {
     option: string;
-    function: (index?: number) => Promise<void>;
+    function: ((index?: number) => Promise<void>) | ((id: number) => void);
   }[];
   topics?: string[];
+  styles?: React.CSSProperties;
 };
 
 export default function Card({
@@ -29,13 +30,14 @@ export default function Card({
   content = "",
   menuOptions,
   topics = [],
+  styles = {},
 }: CardProps) {
   const placeholderImage = "https://via.placeholder.com/150";
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <div className="cardLayout">
+    <div className="cardLayout" style={styles}>
       {modal && (
         <MyVerticallyCenteredModal
           show={modalShow}
@@ -48,35 +50,36 @@ export default function Card({
         />
       )}
       <div
+        className="cardLayout"
         onClick={() => {
           if (modal) setModalShow(true);
           else navigate(link);
         }}
       >
         <div className="image">
-          <img
-            style={{ display: "block" }}
-            src={imageURL || placeholderImage}
-            alt={title}
-          />
+          <img src={imageURL || placeholderImage} alt={title} />
         </div>
-        <div className="cardTitle">
-          <p>{title}</p>
-        </div>
-      </div>
-      <div style={{ position: "absolute", bottom: "10px", left: "10px" }}>
-        <div className="topicsContainer">
-          {topics && topics.map((item, index) => (
-            <span key={index} className="topicTag">
-              {item}
-            </span>
-          ))}
+        <div className="cardContent">
+          <p className="cardTitle">{title}</p>
+          <p className="cardDescription">{description || ""}</p>
+          <div className="topicsContainer">
+            {topics.map((topic, index) => (
+              <span key={index} className="topicTag">
+                {topic}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
       {menuOptions && (
         <Dropdown
           className="cardDropdown"
-          style={{ position: "absolute", bottom: "10px", right: "10px" }}
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            zIndex: 1050, // Ensure the dropdown is above other elements
+          }}
         >
           <Dropdown.Toggle
             variant="secondary"
@@ -86,7 +89,12 @@ export default function Card({
             ⋮
           </Dropdown.Toggle>
 
-          <Dropdown.Menu>
+          <Dropdown.Menu
+            style={{
+              position: "absolute",
+              zIndex: 1060,
+            }}
+          >
             {menuOptions.map((option, index) => {
               return (
                 <Dropdown.Item
@@ -94,6 +102,7 @@ export default function Card({
                   onClick={() => {
                     option.function(index);
                   }}
+                  style={{ cursor: "pointer" }} // Ensure the cursor is a pointer on items
                 >
                   {option.option}
                 </Dropdown.Item>
@@ -125,15 +134,20 @@ function MyVerticallyCenteredModal(props: MyVerticallyCenteredModalProps) {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className="custom-modal"
     >
-      <Modal.Header>
+      <Modal.Header className="modal-header">
         <Modal.Title id="contained-modal-title-vcenter">
-          <NavLink to={props.link} style={{ textDecoration: "none" }}>
+          <NavLink
+            to={props.link}
+            style={{ textDecoration: "none" }}
+            className="modal-title"
+          >
             {props.title}
           </NavLink>
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="modal-body">
         <div className="container">
           <div className="imageContainer">
             <img
@@ -147,6 +161,11 @@ function MyVerticallyCenteredModal(props: MyVerticallyCenteredModalProps) {
           </div>
         </div>
       </Modal.Body>
+      <Modal.Footer className="modal-footer">
+        <button onClick={props.onHide} className="close-button">
+          Close
+        </button>
+      </Modal.Footer>
     </Modal>
   );
 }

@@ -21,10 +21,11 @@ export default function Register() {
         if (remember) {
           localStorage.setItem("User", name);
           localStorage.setItem("Email", email);
-        } else {
-          sessionStorage.setItem("User", name);
-          sessionStorage.setItem("Email", email);
+          localStorage.setItem('UserTopics',"");
         }
+        sessionStorage.setItem("User", name);
+        sessionStorage.setItem("Email", email);
+        sessionStorage.setItem('UserTopics',"");
         navigation("/dashboard");
       } else if (value === "Failure") {
         /*do something here*/
