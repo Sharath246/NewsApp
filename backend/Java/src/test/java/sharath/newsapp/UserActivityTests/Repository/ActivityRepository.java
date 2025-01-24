@@ -1,4 +1,4 @@
-package sharath.newsapp.UserActivity.Repository;
+package sharath.newsapp.UserActivityTests.Repository;
 
 import java.util.List;
 

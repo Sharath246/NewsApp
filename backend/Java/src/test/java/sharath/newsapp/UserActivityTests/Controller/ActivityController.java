@@ -1,4 +1,4 @@
-package sharath.newsapp.UserActivity.Controller;
+package sharath.newsapp.UserActivityTests.Controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

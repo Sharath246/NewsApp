@@ -1,4 +1,4 @@
-package sharath.newsapp.Onboarding.Service;
+package sharath.newsapp.OnboardingTests.Service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;

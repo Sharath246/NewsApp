@@ -1,4 +1,4 @@
-package sharath.newsapp.UserActivity.Service;
+package sharath.newsapp.UserActivityTests.Service;
 
 import java.util.List;
 

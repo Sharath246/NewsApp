@@ -1,4 +1,4 @@
-package sharath.newsapp.UserActivity.Model;
+package sharath.newsapp.UserActivityTests.Model;
 
 public class News {
     private String title, url, urlToImage;

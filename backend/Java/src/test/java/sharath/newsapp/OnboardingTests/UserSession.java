@@ -1,4 +1,4 @@
-package sharath.newsapp.Onboarding;
+package sharath.newsapp.OnboardingTests;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;

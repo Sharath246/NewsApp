@@ -1,4 +1,4 @@
-package sharath.newsapp.Onboarding.Repository;
+package sharath.newsapp.OnboardingTests.Repository;
 
 import java.util.List;
 

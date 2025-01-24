@@ -1,4 +1,4 @@
-package sharath.newsapp.UserActivity.RequestDTO;
+package sharath.newsapp.UserActivityTests.RequestDTO;
 
 import sharath.newsapp.UserActivity.Model.News;
 
