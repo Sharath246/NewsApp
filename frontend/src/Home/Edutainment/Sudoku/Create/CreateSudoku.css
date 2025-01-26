@@ -1,0 +1,102 @@
+.create-sudoku-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.create-sudoku-title {
+  font-size: 28px;
+  color: #0a2e44;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.create-sudoku-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 50px);
+  gap: 2px;
+  background-color: #b0c9e3;
+  border: 4px solid #0a2e44;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.create-sudoku-row {
+  display: contents;
+}
+
+.create-sudoku-cell-wrapper {
+  background-color: #ffffff;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #7a9eb2;
+}
+
+.create-sudoku-cell {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #0a2e44;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  transition: background-color 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.create-sudoku-cell:focus {
+  background-color: #c4d7e6;
+  border: 2px solid #005ea6;
+  outline: none;
+}
+
+.create-sudoku-footer {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.create-sudoku-button {
+  background-color: #005ea6;
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: bold;
+}
+
+.create-sudoku-button:hover {
+  background-color: #004080;
+  transform: scale(1.05);
+}
+
+.create-sudoku-button:active {
+  background-color: #003060;
+}
+
+.difficulty-selection {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.difficulty-label {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.difficulty-dropdown {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}

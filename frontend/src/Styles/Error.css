@@ -1,4 +1,3 @@
-/* General Styles */
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +5,7 @@
 }
 
 main {
-  background-color: #fdfdfd; /* Light background */
+  background-color: #fdfdfd;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +25,7 @@ main {
 
 .error-content h1 {
   font-size: 2.5rem;
-  color: #d32f2f; /* Red for error heading */
+  color: #d32f2f;
   margin-bottom: 20px;
 }
 
@@ -65,7 +64,7 @@ main {
 }
 
 .btn-home {
-  background-color: #007bff; /* Blue for navigation */
+  background-color: #007bff;
 }
 
 .btn-home:hover {
@@ -73,7 +72,7 @@ main {
 }
 
 .btn-retry {
-  background-color: #28a745; /* Green for retry */
+  background-color: #28a745;
 }
 
 .btn-retry:hover {

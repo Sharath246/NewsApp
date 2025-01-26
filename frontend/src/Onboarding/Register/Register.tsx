@@ -21,14 +21,13 @@ export default function Register() {
         if (remember) {
           localStorage.setItem("User", name);
           localStorage.setItem("Email", email);
-          localStorage.setItem('UserTopics',"");
+          localStorage.setItem("UserTopics", "");
         }
         sessionStorage.setItem("User", name);
         sessionStorage.setItem("Email", email);
-        sessionStorage.setItem('UserTopics',"");
+        sessionStorage.setItem("UserTopics", "");
         navigation("/dashboard");
       } else if (value === "Failure") {
-        /*do something here*/
       } else navigation("/404Error");
     }
   }

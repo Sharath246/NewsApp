@@ -27,11 +27,12 @@ export default function AllNews() {
       setNews(allNews);
       setTopics([]);
     };
-    if(query !== "")
-      fetchNews();
-    else{
-      const cached_news = localStorage.getItem("News") || sessionStorage.getItem('News'),
-        cached_topics = localStorage.getItem("Topics") || sessionStorage.getItem('Topics');
+    if (query !== "") fetchNews();
+    else {
+      const cached_news =
+          localStorage.getItem("News") || sessionStorage.getItem("News"),
+        cached_topics =
+          localStorage.getItem("Topics") || sessionStorage.getItem("Topics");
       setNews(JSON.parse(cached_news));
       setTopics(JSON.parse(cached_topics));
     }
@@ -127,7 +128,7 @@ export function FilterModal({ show, onHide, setQuery }) {
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formTopic">
             <Form.Label>Topic</Form.Label>
-            {/* <div style={{ display: "flex", alignItems: "center" }}> */}
+            {}
             <Form.Control
               type="text"
               placeholder="Enter topic"

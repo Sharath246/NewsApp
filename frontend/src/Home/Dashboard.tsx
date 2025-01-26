@@ -42,7 +42,7 @@ export function Navbar() {
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark bg-dark"
-      style={{ padding: "1%",height:"100%"}}
+      style={{ padding: "1%", height: "100%" }}
     >
       NewsApp
       <div
@@ -63,6 +63,9 @@ export function Navbar() {
           </Link>
           <Link className="nav-link" to="topics">
             Topics
+          </Link>
+          <Link className="nav-link" to="play">
+            Play Games
           </Link>
         </div>
         {user !== null ? (
@@ -93,11 +96,6 @@ export function Navbar() {
                   <div className="dropdown-item" onClick={logoutHandler}>
                     Logout
                   </div>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="Sudoku">
-                    Play Sudoku
-                  </Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="l&b">

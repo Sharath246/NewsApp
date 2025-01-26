@@ -5,11 +5,68 @@ import React, { useEffect, useState } from "react";
 export default function Topic() {
   const [topics, setTopics] = useState([]);
   const [isCustomizing, setIsCustomizing] = useState(false);
-
+  const [user,setUser] = useState(null);
   useEffect(()=>{
+    const news_topics = [
+      {
+        topic: "Technology",
+        image_url:
+          "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg",
+      },
+      {
+        topic: "Science",
+        image_url:
+          "https://images.pexels.com/photos/256262/pexels-photo-256262.jpeg",
+      },
+      {
+        topic: "Politics",
+        image_url:
+          "https://images.pexels.com/photos/1550337/pexels-photo-1550337.jpeg",
+      },
+      {
+        topic: "Economy and Business",
+        image_url:
+          "https://images.pexels.com/photos/19783674/pexels-photo-19783674.jpeg",
+      },
+      {
+        topic: "Health and Wellness",
+        image_url:
+          "https://images.pexels.com/photos/39671/physiotherapy-weight-training-dumbbell-exercise-balls-39671.jpeg",
+      },
+      {
+        topic: "Education",
+        image_url:
+          "https://images.pexels.com/photos/301926/pexels-photo-301926.jpeg",
+      },
+      {
+        topic: "Travel",
+        image_url:
+          "https://images.pexels.com/photos/2245436/pexels-photo-2245436.png",
+      },
+      {
+        topic: "Entertainment",
+        image_url:
+          "https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg",
+      },
+      {
+        topic: "Environment",
+        image_url:
+          "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg",
+      },
+      {
+        topic: "Crime and Law",
+        image_url:
+          "https://images.pexels.com/photos/8382281/pexels-photo-8382281.jpeg",
+      },
+    ];
+
+    const user = localStorage.getItem('User') || sessionStorage.getItem('User')
+    setUser(user);
     const topic = localStorage.getItem('UserTopics') || sessionStorage.getItem('UserTopics');
     if(topic)
       setTopics(JSON.parse(topic));
+    else if(user === null)
+      setTopics(news_topics);
   },[])
 
   const handleAddTopic = async () => {
@@ -42,7 +99,7 @@ export default function Topic() {
 
   return (
     <>
-      <div style={Styles.mainContainer}>
+      {user && <div style={Styles.mainContainer}>
         <button
           onClick={() => setIsCustomizing(!isCustomizing)}
           style={Styles.toggleButton}
@@ -54,7 +111,7 @@ export default function Topic() {
             Add Topic
           </button>
         )}
-      </div>
+      </div>}
       <div style={Styles.container}>
         {topics.map((topic) => (
           <div style={Styles.cardContainer} key={topic.id}>

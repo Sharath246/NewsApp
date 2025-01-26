@@ -11,7 +11,7 @@ const Sudoku: React.FC<SudokuProps> = ({ initialArray }) => {
   const [grid, setGrid] = useState<GridType>(
     Array(9)
       .fill(0)
-      .map(() => Array(9).fill("")),
+      .map(() => Array(9).fill(""))
   );
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(true);
 
@@ -20,7 +20,7 @@ const Sudoku: React.FC<SudokuProps> = ({ initialArray }) => {
       const newGrid: GridType = Array(9)
         .fill(0)
         .map((_, rowIndex) =>
-          initialArray.slice(rowIndex * 9, rowIndex * 9 + 9),
+          initialArray.slice(rowIndex * 9, rowIndex * 9 + 9)
         );
       setGrid(newGrid);
     }
@@ -127,7 +127,11 @@ const Sudoku: React.FC<SudokuProps> = ({ initialArray }) => {
             {row.map((col, colIndex) => (
               <div
                 key={colIndex}
-                className={`sudoku-cell-wrapper ${rowIndex % 3 === 2 && rowIndex !== 8 ? "bottom-border" : ""} ${colIndex % 3 === 2 && colIndex !== 8 ? "right-border" : ""}`}
+                className={`sudoku-cell-wrapper ${
+                  rowIndex % 3 === 2 && rowIndex !== 8 ? "bottom-border" : ""
+                } ${
+                  colIndex % 3 === 2 && colIndex !== 8 ? "right-border" : ""
+                }`}
               >
                 {renderCell(rowIndex, colIndex)}
               </div>
@@ -148,7 +152,7 @@ const Sudoku: React.FC<SudokuProps> = ({ initialArray }) => {
             setGrid(
               Array(9)
                 .fill(0)
-                .map(() => Array(9).fill("")),
+                .map(() => Array(9).fill(""))
             )
           }
           className="footer-button-false"

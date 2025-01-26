@@ -37,7 +37,7 @@ export default function Settings() {
     <div className="settings-page">
       <h1>User Settings</h1>
 
-      {/* Personal Information Section */}
+      {}
       <div className="section">
         <h2>Personal Information</h2>
         <form onSubmit={handleFormSubmit} className="settings-form">
@@ -91,7 +91,7 @@ export default function Settings() {
         </form>
       </div>
 
-      {/* Email Verification Section */}
+      {}
       <div className="section">
         <h2>Email Verification</h2>
         <div className="form-group">
@@ -110,7 +110,7 @@ export default function Settings() {
         </button>
       </div>
 
-      {/* Change Password Section */}
+      {}
       <div className="section">
         <h2>Change Password</h2>
         <form onSubmit={handleFormSubmit} className="settings-form">
