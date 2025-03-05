@@ -55,7 +55,7 @@ export function Navbar() {
         }}
       >
         <div className="navbar-nav">
-          <Link className="nav-link" to="/dashboard">
+          <Link className="nav-link" to="/">
             Home
           </Link>
           <Link className="nav-link" to="/about">
@@ -66,6 +66,9 @@ export function Navbar() {
           </Link>
           <Link className="nav-link" to="play">
             Play Games
+          </Link>
+          <Link className="nav-link" to="/DT">
+            DT
           </Link>
         </div>
         {user !== null ? (

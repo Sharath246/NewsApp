@@ -103,27 +103,10 @@ def get_tasks_by_date():
     cnx = connect_to_DB()
     if not cnx:
         return jsonify({'message': 'Database connection error'}), 500
+
+    start_date = request.args.get('start')
+    end_date = request.args.get('end')
     
-    start_date = request.headers.get('start') # Date passed from the frontend (format: 'YYYY-MM-DD')
-    end_date = request.headers.get('end') # Date passed from the frontend (format: 'YYYY-MM-DD')
-
-    sql = f"SELECT task, date_created FROM tasks;"
-
-    try:
-        rows = get_task_for_date(cnx, sql)
-        tasks = [{'task': task, 'date': date} for task, date in rows]
-        return jsonify(tasks), 200
-    except Exception as e:
-        print(f"Error fetching tasks by date: {e}")
-        return jsonify({'message': 'Error fetching tasks'}), 500
-    finally:
-        cnx.close()
-
-def get_tasks_by_date(start_date, end_date):
-    cnx = connect_to_DB()
-    if not cnx:
-        return jsonify({'message': 'Database connection error'}), 500
-
     sql = f"SELECT task, date_created FROM tasks WHERE date_created >= '{start_date}' AND date_created <= '{end_date}';"
 
     try:

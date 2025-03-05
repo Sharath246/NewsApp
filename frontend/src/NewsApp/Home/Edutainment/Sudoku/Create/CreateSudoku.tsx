@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./CreateSudoku.css";
-import { setSudoku } from "../../../../api/games";
 
 export default function CreateSudoku() {
   const [grid, setGrid] = useState<string[][]>(
@@ -87,22 +86,10 @@ export default function CreateSudoku() {
 
   const handleSubmit = async (): Promise<void> => {
     if (!validateGrid()) {
+      alert("Some error in th solution");
       return;
     }
-
-    const sudokuString = grid
-      .map((row) => row.map((cell) => (cell === "" ? "0" : cell)).join(""))
-      .join("");
-
-    try {
-      const response = await setSudoku(sudokuString, difficulty);
-      if (response === "Failed") {
-        alert("Failed to submit Sudoku.");
-      }
-    } catch (error) {
-      console.error("Error submitting Sudoku:", error);
-      alert("An error occurred while submitting the Sudoku.");
-    }
+    alert("Good Job")
   };
 
   const renderCell = (row: number, col: number): JSX.Element => {

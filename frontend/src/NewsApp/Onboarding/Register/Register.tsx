@@ -26,7 +26,7 @@ export default function Register() {
         sessionStorage.setItem("User", name);
         sessionStorage.setItem("Email", email);
         sessionStorage.setItem("UserTopics", "");
-        navigation("/dashboard");
+        navigation("/");
       } else if (value === "Failure") {
       } else navigation("/404Error");
     }
@@ -34,7 +34,7 @@ export default function Register() {
 
   useEffect(() => {
     const user = localStorage.getItem("User");
-    if (user !== null) navigation("/dashboard");
+    if (user !== null) navigation("/");
   }, [navigation]);
 
   return (

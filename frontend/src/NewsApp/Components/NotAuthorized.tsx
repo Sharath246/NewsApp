@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function NotAuthorizedPage() {
   const navigate = useNavigate();
   const handleGoHome = () => {
-    navigate("/dashboard");
+    navigate("/");
   };
 
   return (

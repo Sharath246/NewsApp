@@ -25,13 +25,13 @@ export default function Login() {
       sessionStorage.setItem("User", val["name"]);
       sessionStorage.setItem("Email", val["email"]);
       sessionStorage.setItem("UserTopics", val["topics"]);
-      navigation("/dashboard");
+      navigation("/");
     }
   }
 
   useEffect(() => {
     const user = localStorage.getItem("User") || sessionStorage.getItem("User");
-    if (user !== null) navigation("/dashboard/" + user);
+    if (user !== null) navigation("/" + user);
   }, [navigation]);
 
   return (

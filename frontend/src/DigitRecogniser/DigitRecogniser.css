@@ -1,0 +1,65 @@
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.guess-container {
+  width: 50%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.guess-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.guess-bars {
+  display: flex;
+  align-items: flex-end;
+  height: 250px;
+  width: 100%;
+  justify-content: space-around;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #eef1f5;
+  border-radius: 10px;
+}
+
+.probabilty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30px;
+  text-align: center;
+}
+
+.probability-bar {
+  width: 100%;
+  height: 180px;
+  background-color: #ddd;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.probability-bar div {
+  width: 100%;
+  transition: height 0.5s ease-in-out;
+  background-color: #4caf50;
+  border-radius: 5px;
+}
